@@ -1,6 +1,6 @@
 <?php
     /*
-     * Cupfsa Coins - Ingreso
+     * CBC Admin - Inicio de sesión
      * 
      */
     ini_set( 'display_errors', 1 );
@@ -13,7 +13,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Cupfsa Coins</title>
+		<title>Coco Beauty Club Admin</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -40,6 +40,12 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
+		<style type="text/css">
+			body {
+				background: #222;
+				width: 100%;
+			}
+		</style>
 	</head>
 	<?php 
 		$usuarios = obtenerUsuariosRegistrados( $dbh );
@@ -54,28 +60,31 @@
 
 				<div class="panel panel-sign">
 					<div class="panel-title-sign mt-xl text-right">
-						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Ingresar</h2>
+						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-lock mr-xs"></i> Ingresar</h2>
 					</div>
 					<div class="panel-body">
 						<form id="loginform">
 							<div class="form-group mb-lg">
-								<input name="login" type="hidden" value="1"/>
-								<label>ROL</label>
-								<select name="rol" class="form-control input-lg mb-md">
-									<?php foreach ( $usuarios as $u ) { 
-										$roles = rolesUsuario( 
-													$dbh, $u["idUSUARIO"] );
-										$ru = "";
-										foreach ( $roles as $r ) {
-											$ru .= $r["nombre"]." ";
-										}
-									?>
-									<option value="<?php echo $u["idUSUARIO"]?>">
-										<?php 
-										echo $u["nombre"]." (".$ru.")" ?>
-									</option>
-									<?php } ?>
-								</select>
+								<label>Email</label>
+								<div class="input-group input-group-icon">
+									<input name="email" type="text" class="form-control input-lg" required>
+									<span class="input-group-addon">
+										<span class="icon icon-lg">
+											<i class="fa fa-envelope"></i>
+										</span>
+									</span>
+								</div>
+							</div>
+							<div class="form-group mb-lg">
+								<label>Contraseña</label>
+								<div class="input-group input-group-icon">
+									<input name="password" type="password" class="form-control input-lg" required>
+									<span class="input-group-addon">
+										<span class="icon icon-lg">
+											<i class="fa fa-lock"></i>
+										</span>
+									</span>
+								</div>
 							</div>
 
 							<div class="row">
@@ -83,7 +92,7 @@
 									
 								</div>
 								<div class="col-sm-4 text-right">
-									<button type="button" class="btn btn-primary hidden-xs" onClick="log_in()">Ingresar</button>
+									<button type="submit" class="btn btn-primary hidden-xs">Ingresar</button>
 									<button type="button" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Ingresar</button>
 								</div>
 							</div>
@@ -92,7 +101,7 @@
 					</div>
 				</div>
 
-				<p class="text-center text-muted mt-md mb-md">Cupfsa Coins 2019. <a href="#!">Cupfsa</a>.</p>
+				<p class="text-center text-muted mt-md mb-md">Coco Beauty Club Admin 2019 <a href="#!">Cupfsa</a>.</p>
 			</div>
 		</section>
 		<!-- end: page -->
@@ -105,6 +114,7 @@
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -116,5 +126,6 @@
 		<script src="assets/javascripts/theme.init.js"></script>
 
 		<script src="js/fn-acceso.js"></script>
+		
 	</body>
 </html>

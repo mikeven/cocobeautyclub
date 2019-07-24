@@ -11,9 +11,7 @@
 	    background-color: rgba(0, 0, 0, 0.1);
 	}
 </style>
-<?php
-	$coins_usuario = obtenerCoinsUsuario( $dbh, $_SESSION["user"]["idUSUARIO"] );
-?>
+
 <!-- start: header -->
 <header class="header">
 	<div class="logo-container">
@@ -209,17 +207,15 @@
 				data-lock-name="<?php echo $_SESSION["user"]["nombre"] ?>" 
 				data-lock-email="<?php echo $_SESSION["user"]["email"] ?>">
 					<span class="name"><?php echo $_SESSION["user"]["nombre"] ?></span>
-					<span class="role"><?php echo hrolesUsuario( $accesos_usess["roles"] )?>
-					</span>
+					<span class="role"><?php echo $_SESSION["user"]["email"] ?></span>
 				</div>
-				<figure class="profile-picture">
-					<div class="panel-heading-icon_p">
-						<div style="margin-top: 10px;"><?php echo $coins_usuario ?></div>
+				<!--<figure class="profile-picture">
+					<div class="panel-heading-icon_p hidden">
+						<div style="margin-top: 10px;"></div>
 						<div style="font-size: 10px; margin-bottom: 5px;">coins</div>
 					</div>
 				</figure>
-
-				<i class="fa custom-caret"></i>
+				<i class="fa custom-caret"></i>-->
 			</a>
 
 			<div class="dropdown-menu">

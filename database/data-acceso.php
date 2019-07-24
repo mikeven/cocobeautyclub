@@ -3,85 +3,52 @@
 	/* Cupfsa Coins - Accesos a roles de usuario */
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
-	function obtenerAccionesRol( $dbh, $idr ){
-		//
-		$q = "select a.idAccion, a.nombre, a.descripcion from accion a, permiso p 
-		where a.idAccion = p.idAccion and p.idROL = $idr";
+	
+	function obtenerUsuarioLogin( $dbh, $email, $passw ){
+		// Devuelve los datos del usuario que inicia sesión
+		$data_u = NULL;
+		$q = "select * from usuario where email = '$email' and password = '$passw'";
 		
-		$data = mysqli_query( $dbh, $q );
-
-		return obtenerListaRegistros( $data );
-	}
-	/* --------------------------------------------------------- */
-	function obtenerSeccionesAccion( $accion ){
-		include( "../fn/accesos.php" );
-		if( isset( $esq_secciones[ $accion["nombre"] ] ) )
-			return $esq_secciones[ $accion["nombre"] ];
-		else 
-			return NULL;
-	}
-	/* --------------------------------------------------------- */
-	function obtenerAccesosUsuario( $dbh, $acciones ){
-		//
-		
-		$accesos = array();
-		foreach ( $acciones as $accion ) {
-
-			$secciones_accion = obtenerSeccionesAccion( $accion );
-			if( $secciones_accion != NULL ){
-				foreach ( $secciones_accion as $seccion ) {
-					//echo $seccion."<br>";
-					$accesos[] = $seccion["id"];
-				}
-			}
-		}
-
-		return $accesos;
-	}
-	/* --------------------------------------------------------- */
-	function obtenerAccionesUsuario( $dbh, $roles ){
-		//
-		$lista_acciones = array();
-		foreach ( $roles as $rol ) {
-			$acciones = obtenerAccionesRol( $dbh, $rol["idRol"] );
-			foreach ( $acciones as $accion ) {
-				$lista_acciones[] = $accion;
-			}
-		}
-
-		return $lista_acciones;
-	}
-	/* --------------------------------------------------------- */
-	function obtenerRolesUsuario( $dbh, $idu ){
-		//
-		$q = "select r.idRol, r.nombre from rol r, usuario_rol ur 
-		where ur.idROL = r.idRol and ur.idUSUARIO = $idu";
-		
-		$data = mysqli_query( $dbh, $q );
-		$lista = obtenerListaRegistros( $data );
-		return $lista;
-	}
-	/* --------------------------------------------------------- */
-	function iniciarSesion( $idu, $dbh ){
-		session_start();
-		$idresult = 0; 
-		$q = "select * from usuario where idUSUARIO = $idu";
-		//echo $q;
 		$data 	= mysqli_query ( $dbh, $q );
-		$data_u = mysqli_fetch_array( $data );
 		$nrows 	= mysqli_num_rows( $data );
+		if( $nrows > 0 )
+			$data_u = mysqli_fetch_array( $data );
+
+		return $data_u;
+	}
+	/* --------------------------------------------------------- */
+	function actualizarUltimoIngreso( $dbh, $idp ){
+		// Actualiza la fecha de último inicio de sesión de un usuario
+		$q = "update usuario set ultimo_ingreso = NOW() where id = $idp";
 		
-		if( $nrows > 0 ){
-			$_SESSION["login"] 	= 1;
-			$data_u["roles"] 	= obtenerRolesUsuario( $dbh, $idu );
-			$data_u["acciones"] = obtenerAccionesUsuario( $dbh, $data_u["roles"] );
-			$data_u["accesos"] 	= obtenerAccesosUsuario( $dbh, $data_u["acciones"] );
-			$_SESSION["user"] 	= $data_u;
-			$idresult 			= 1; 
+		$data = mysqli_query( $dbh, $q );
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
+	function iniciarSesion( $data_u ){
+		// Inicia la sesión de usuario
+		session_start();
+		
+		$_SESSION["login"] 	= 1;	
+		$_SESSION["user"] 	= $data_u;
+	}
+	/* --------------------------------------------------------- */
+	function checkLogin( $dbh, $email, $passw ){
+		// Verifica si un usuario existe y está habilitado para ingresar
+
+		$data_login["valido"] = false;
+		$data_u = NULL;
+		$data_u = obtenerUsuarioLogin( $dbh, $email, $passw );
+
+		if( $data_u != NULL ){
+			$data_login["valido"] = true;
+			$data_login["usuario"] = $data_u;
+			iniciarSesion( $data_u );
 		}
 		
-		return $idresult;
+		return $data_login;
 	}
+	
 	/* --------------------------------------------------------- */
 	function checkSession(){
 		// Redirecciona a la página de inicio de sesión en caso de no existir sesión de usuario
@@ -96,9 +63,21 @@
 	if( isset( $_POST["login"] ) ){ 
 		// Invocación desde: js/fn-acceso.js
 		include( "bd.php" );
-		$usuario = $_POST["rol"];
+	
+		parse_str( $_POST["login"], $usuario );
+		$usuario = escaparCampos( $dbh, $usuario );
+		$login 	= checkLogin( $dbh, $usuario["email"], $usuario["password"] );
 		
-		echo iniciarSesion( $usuario, $dbh );
+		if( $login["valido"] ){
+			actualizarUltimoIngreso( $dbh, $login["usuario"]["id"] );
+			$res["exito"] = 1;
+			$res["mje"] = "Inicio de sesión exitosa";
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Email o contraseña incorrecta, verifique sus datos e intente nuevamente";
+		}
+		
+		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
 	//Cierre de sesión
@@ -109,5 +88,4 @@
 		echo "<script> window.location = 'index.php'</script>";		
 	}
 	/* --------------------------------------------------------- */
-	checkSession();
 ?>
