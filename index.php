@@ -5,7 +5,6 @@
      */
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
-    include( "database/data-usuarios.php" );
 ?>
 <!doctype html>
 <html class="fixed">
@@ -47,9 +46,7 @@
 			}
 		</style>
 	</head>
-	<?php 
-		$usuarios = obtenerUsuariosRegistrados( $dbh );
-	?>
+	
 	<body>
 		<!-- start: page -->
 		<section class="body-sign">
