@@ -18,7 +18,7 @@ html {
 
 body {
 	color: #777;
-	font-family: "Open Sans", Arial, sans-serif;
+	font-family: 'Nunito Sans', sans-serif;
 	line-height: 22px;
 	margin: 0;
 	font-size: 15px;
@@ -15924,7 +15924,7 @@ table.fc-border-separate {
 	font-size: 13px;
 	font-size: 1.3rem;
 	font-weight: 500;
-	padding: 10px 0;
+	padding: 0px 0;/*modified*/
 	text-transform: uppercase;
 }
 .fc .fc-header-title h2 {

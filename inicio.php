@@ -6,13 +6,14 @@
     session_start();
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
-    //include( "database/data-usuarios.php" );
     include( "database/data-acceso.php" );
+    include( "database/data-reservacion.php" );
+
     include( "fn/fn-acceso.php" );
 
     checkSession();
  	
- 	$titulo_pagina = "Inicio";
+ 	$titulo_pagina = "Actividades";
     $idu = $_SESSION["user"]["id"];
 ?>
 <!doctype html>
@@ -22,18 +23,26 @@
 		<meta charset="UTF-8">
 
 		<title><?php echo $titulo_pagina; ?> :: Cupfsa Coco Beauty Club</title>
-		<meta name="keywords" content="HTML5 Admin Template" />
-		<meta name="description" content="JSOFT Admin - Responsive HTML5 Template">
-		<meta name="author" content="JSOFT.net">
+		<meta name="keywords" content="Cupfsa Coco Beauty Club" />
+		<meta name="description" content="Sistema backend administrativo para Cupfsa Coco Beauty Club">
+		<meta name="author" content="CHANEL">
 
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
 
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
 		<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" href="assets/vendor/magnific-popup/magnific-popup.css" />
 		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
+
+		<link href='assets/vendor/packages/core/main.css' rel='stylesheet' />
+		<link href='assets/vendor/packages/daygrid/main.css' rel='stylesheet' />
+		<link href='assets/vendor/packages/timegrid/main.css' rel='stylesheet' />
+		<link href='assets/vendor/packages/list/main.css' rel='stylesheet' />
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
@@ -51,6 +60,7 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
+		<link rel="stylesheet" href="assets/stylesheets/cupfsa-custom.css">
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
@@ -84,11 +94,20 @@
 					</header>
 
 					<div class="row">
-						<div class="col-sm-12 col-xs-12">
+						<section class="panel">
+						<div class="col-sm-9 col-xs-12">
 							
-							<section class="panel"></section>
+							<div id='calendar'> </div>
+							<a id="evtsrsv" href="#!" class="hidden">EVENTOS</a>
 							
 						</div>
+						<div class="col-sm-3 col-xs-12">
+							<div id='script-warning'>
+							    
+							</div>
+						</div>
+						<div class="col-sm-4 col-xs-12 hidden"></div>
+						</section>
 					</div>
 				</section>
 			</div>
@@ -112,7 +131,16 @@
 		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
 		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
 		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
-		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>		
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>	
+
+		<script src='assets/vendor/packages/core/main.js'></script>
+		<script src='assets/vendor/packages/interaction/main.js'></script>
+		<script src='assets/vendor/packages/daygrid/main.js'></script>
+		<script src='assets/vendor/packages/timegrid/main.js'></script>
+		<script src='assets/vendor/packages/list/main.js'></script>
+		<script src='assets/vendor/packages/core/locales/es.js'></script>
+
+		<script src="js/fn-calendario.js"></script>	
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>

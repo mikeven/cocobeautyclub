@@ -1,7 +1,7 @@
 /* Base */
 a,
 .btn-link {
-	color: #0088cc;
+	color: #222;
 }
 
 a:hover,
@@ -388,8 +388,8 @@ html.dark .pagination > li.active a {
 }
 /* Fullcalendar */
 .fc .fc-widget-header {
-	background: #0088cc;
-	border-color: #0088cc;
+	background: #222; /*modified #0088cc*/
+	border-color: #222; /*modified #0088cc*/
 }
 
 .fc .fc-header-title h2:before {

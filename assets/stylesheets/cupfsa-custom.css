@@ -19,6 +19,23 @@
 	animation-iteration-count: infinite;
 }
 
+#calendar .fc-header-toolbar{
+	font-family: chanel;
+	font-size: 12px;
+}
+
+#calendar .fc-head-container{
+	font-family: chanel;
+}
+
+#calendar .fc-head-container a{
+	color: #ed145b;
+}
+
+#calendar .fc-widget-content a{
+	
+}
+
 @-webkit-keyframes gtoday {
 	from {
 		padding: 0px 0px; 
