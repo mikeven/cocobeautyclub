@@ -3,8 +3,24 @@
 	/* CBC - Datos sobre Reservaciones */
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
+	function obtenerReservacionPorId( $dbh, $idr ){
+		// Devuelve el registro de una reservación dado su id
+
+		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
+		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
+		a.nombre as actividad, a.descripcion, a.imagen, 
+		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha  
+		from actividad a, horario h, reservacion r where r.HORARIO_id = h.id and 
+		h.ACTIVIDAD_id = a.id and r.id = $idr";
+		
+		$data = mysqli_query( $dbh, $q );
+		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
+		
+		return $registro;
+	}
+	/* --------------------------------------------------------- */
 	function obtenerReservacionPorToken( $dbh, $token ){
-		// Devuelve el registro de una reservación
+		// Devuelve el registro de una reservación dado su token de creación
 
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
 		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
@@ -126,6 +142,23 @@
 	    	array_push( $eventos, $e );
 		}
 		return $eventos;
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["mostrar_rsv"] ) ){ 
+		// Invocación desde: js/fn-actividad.js
+		include( "bd.php" );
+
+		$idr = $_POST["mostrar_rsv"];
+		$actividad = obtenerReservacionPorId( $dbh, $idr );
+		
+		if( $actividad != NULL ){
+			$res["exito"] = 1;
+			$res["reg"] = $actividad;
+		}else{
+			$res["exito"] = -1;
+			$res["mje"] = "Error al obtener actividad";
+		}
+		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
 ?>

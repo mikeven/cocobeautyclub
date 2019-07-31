@@ -73,12 +73,16 @@
 		          document.getElementById('script-warning').style.display = 'block'
 		        },
 	            error: function() {
-	                alert('Hubo un error al obtener las tareas');
+	                alert('Hubo un error al obtener las actividades');
 	            }
 	        },
 			eventClick: function( info ) {
 	        	// Asignación de datos de actividad por clic en evento de calendario
-	        	console.log( info.event );
+	        	//console.log( info.event );
+	        	var idr = info.event.id;
+
+			    $("#selector_rsv_cal").attr( "data-idr", idr );
+			    $("#selector_rsv_cal").click();
 			}
 		});
 
@@ -87,6 +91,13 @@
 
 	$("#evtsrsv").on( "click", function(){
         ajaxRSR();
+    });
+
+    $("#selector_rsv_cal").on( "click", function(){
+        // Evento invocador para mostrar datos de reservación en calendario
+        alert("clic");
+        var idr = $(this).attr( "data-idr" );
+        mostrarReservacion( idr, "ventana_cal" );
     });
 
 	/* --------------------------------------------------------- */

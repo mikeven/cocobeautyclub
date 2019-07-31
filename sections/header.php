@@ -223,7 +223,7 @@
 					<li class="divider"></li>
 					
 					<li>
-						<a role="menuitem" tabindex="-1" href="inicio.php?logout"><i class="fa fa-power-off"></i> Salir</a>
+						<a role="menuitem" tabindex="-1" href="reservaciones.php?logout"><i class="fa fa-power-off"></i> Salir</a>
 					</li>
 				</ul>
 			</div>

@@ -2,13 +2,13 @@
 	<ul class="nav nav-main">
 		<li class="nav-active">
 			<a href="inicio.php">
-				<i class="fa fa-home" aria-hidden="true"></i>
-				<span>Actividades</span>
+				<i class="fa fa-calendar" aria-hidden="true"></i>
+				<span>Reservaciones</span>
 			</a>
 		</li>
 		<li class="nav-parent">
 			<a>
-				<i class="fa fa-bookmark" aria-hidden="true"></i>
+				<i class="fa fa-table" aria-hidden="true"></i>
 				<span>Reportes</span>
 			</a>
 			<ul class="nav nav-children">

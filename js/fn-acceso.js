@@ -66,7 +66,7 @@ function log_in(){
         	console.log( response );
         	res = jQuery.parseJSON( response );
 			if( res.exito == 1 )
-				window.location = "inicio.php";
+				window.location = "reservaciones.php";
 			else
 				alertaMensaje( res.exito, res.mje );
         }

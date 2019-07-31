@@ -7,6 +7,7 @@
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
     include( "database/data-acceso.php" );
+    include( "database/data-actividad.php" );
     include( "database/data-reservacion.php" );
 
     include( "fn/fn-acceso.php" );
@@ -14,6 +15,7 @@
     checkSession();
  	
  	$titulo_pagina = "Actividades";
+ 	$actividades = obtenerActividades( $dbh );
     $idu = $_SESSION["user"]["id"];
 ?>
 <!doctype html>
@@ -64,6 +66,11 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
+		<style type="text/css">
+			.btn-act-cal{
+				width: 60%;
+			}
+		</style>
 	</head>
 	
 	<body>
@@ -79,7 +86,7 @@
 
 				<section role="main" class="content-body hidden_">
 					<header class="page-header">
-						<h2>Actividades</h2>
+						<h2>Reservaciones</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -95,18 +102,33 @@
 
 					<div class="row">
 						<section class="panel">
-						<div class="col-sm-9 col-xs-12">
-							
-							<div id='calendar'> </div>
-							<a id="evtsrsv" href="#!" class="hidden">EVENTOS</a>
-							
-						</div>
-						<div class="col-sm-3 col-xs-12">
-							<div id='script-warning'>
-							    
+
+							<div class="col-sm-3 col-xs-12">
+								<div id='script-warning'> </div>
+								<section class="panel">
+									<header class="panel-heading">
+										<h2 class="panel-title">Actividades</h2>
+									</header>
+									<div class="panel-body">
+										<?php foreach ( $actividades as $a ) { ?>
+											<div>
+												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal"><?php echo $a["nombre"] ?></button>
+											</div>
+										<?php } ?>	
+										
+									</div>
+									
+								</section>
 							</div>
-						</div>
-						<div class="col-sm-4 col-xs-12 hidden"></div>
+							<div class="col-sm-9 col-xs-12">
+								
+								<div id='calendar'> </div>
+								<a id="evtsrsv" href="#!" class="hidden">EVENTOS</a>
+								<a id="selector_rsv_cal" href="#reservacion-calendario" 
+								class="modal-sizes modal-with-zoom-anim" data-idr></a>
+								<?php include( "sections/modals/ficha-reservacion.php" ); ?>
+							</div>
+							
 						</section>
 					</div>
 				</section>
@@ -151,10 +173,9 @@
 		<!-- Theme Initialization Files -->
 		<script src="js/fn-ui.js"></script>
 		<script src="assets/javascripts/theme.init.js"></script>
-		<script src="js/fn-nominaciones.js"></script>
+		<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
+		<script src="js/fn-reservacion.js"></script>
 
-		<!-- Examples -->
-		<!--
-		<script src="assets/javascripts/dashboard/examples.dashboard.js"></script>-->
+		
 	</body>
 </html>
