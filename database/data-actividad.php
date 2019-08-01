@@ -38,28 +38,7 @@
 		
 		$data = mysqli_query( $dbh, $q );
 		return obtenerListaRegistros( $data );
-	}
-	/* --------------------------------------------------------- */
-	function obtenerPautasActividad( $horarios ){
-		// Devuelve arreglo de las fechas pautadas de una actividad
-
-		$e = array();
-		$pautas = array();
-		
-		foreach ( $horarios as $h ) {
-			
-			$e['id'] 		= $h["id"];
-			$e['groupId'] 	= "ACT".$h["ida"];
-	    	$e['start'] 	= $h["fecha_cal"];
-	    	$e['end'] 		= $h["fecha_cal"];
-	    	$e['rendering'] = 'background';
-	    	$e['color'] 	= 'green';
-
-	    	array_push( $pautas, $e );
-		}
-
-		return $pautas;
-	}
+	}	
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["nactividad"] ) ){ 
 		// Invocación desde: js/fn-actividad.js

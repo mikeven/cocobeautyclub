@@ -20,16 +20,28 @@
 	if (isset($_GET['timeZone'])) {
 	  $timeZone = new DateTimeZone($_GET['timeZone']);
 	}
+	// Actividades
+	$actividades = obtenerActividades( $dbh );
 
-	$eventos = obtenerFechasReservadas( $dbh );
-	$horarios1 = obtenerHorariosActividad( $dbh, 1 );
-	$pautas1 = obtenerPautasActividad( $horarios1 );
-	$eventos = array_merge($eventos, $pautas1);
+	// Reservaciones registradas
+	$eventos 	= obtenerFechasReservadas( $dbh );
 
-	$horarios2 = obtenerHorariosActividad( $dbh, 2 );
-	$pautas2 = obtenerPautasActividad( $horarios2 );
+	// Pautas de actividades: horarios en que pueden asignarse reservaciones
+	foreach ( $actividades as $a ) {
+		$horarios 	= obtenerHorariosActividad( $dbh, $a["id"] );
+		$pautas 	= vectorHorarios( $horarios );
+		$eventos 	= array_merge( $eventos, $pautas );
+	}
 
-	$eventos = array_merge($eventos, $pautas2);
+	/*$horarios1 	= obtenerHorariosActividad( $dbh, 1 );
+	$pautas1 	= vectorHorarios( $horarios1 );
+	$eventos 	= array_merge( $eventos, $pautas1 );
+
+	$horarios2 	= obtenerHorariosActividad( $dbh, 2 );
+	$pautas2 	= vectorHorarios( $horarios2 );
+
+	$eventos 	= array_merge( $eventos, $pautas2 );*/
+
     /* $je = json_encode( $eventos );
 
 	$json = $je;//file_get_contents('events.json');
@@ -39,7 +51,27 @@
 	/* --------------------------------------------------------- */
 	function tituloEvento( $r ){
 		//Devuelve el título de evento a mostrar en calendario
-		return $r["nombre"]." > ".$r["actividad"];
+		return $r["nombre"]." >> ".$r["actividad"];
 	}
 	/* --------------------------------------------------------- */
+	function vectorHorarios( $horarios ){
+		// Devuelve arreglo de las fechas pautadas de una actividad
+
+		$e = array();
+		$pautas = array();
+		
+		foreach ( $horarios as $h ) {
+			
+			$e['id'] 		= $h["id"];
+			$e['groupId'] 	= "ACT".$h["ida"];
+	    	$e['start'] 	= $h["fecha_cal"];
+	    	$e['end'] 		= $h["fecha_cal"];
+	    	$e['rendering'] = 'background';
+	    	$e['color'] 	= 'green';
+
+	    	array_push( $pautas, $e );
+		}
+
+		return $pautas;
+	}
 ?>

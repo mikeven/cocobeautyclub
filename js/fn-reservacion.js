@@ -83,6 +83,7 @@ function mostrarReservacionCalendario( reservacion ){
     $("#i_estado_rsv").addClass( iconoEstadoReservacion( reservacion.estado ) );
     $("#fecha_reg_rsv").html( reservacion.fecha_registro );
     $("#fecha_canc_rsv").html( reservacion.fecha_cancelacion );
+    $("#img-rsv-act").attr( "src", "../images/" + reservacion.imagen );
     /*$("#icono_actividad").addClass( iconoActividad( actividad.tipo ) );
     $("#panel_act_prop").addClass( "panel-" + claseColorAct( actividad.tipo ) );
     $("#panel_act_prop").show();

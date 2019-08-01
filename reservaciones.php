@@ -117,11 +117,10 @@
 												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal"><?php echo $a["nombre"] ?></button>
 											</div>
 										<?php } ?>	
-										
 									</div>
-									
 								</section>
 							</div>
+							
 							<div class="col-sm-9 col-xs-12">
 								
 								<div id='calendar'> </div>

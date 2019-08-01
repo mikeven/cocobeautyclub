@@ -7,7 +7,7 @@
 					<header class="panel-heading bg-dark">
 						<div class="widget-profile-info">
 							<div class="profile-picture">
-								<img src="assets/images/!logged-user.jpg">
+								<img id="img-rsv-act" src="">
 							</div>
 							<div class="profile-info">
 								<h4 class="name text-semibold rsv_nactividad"></h4>
@@ -66,7 +66,7 @@
 					<footer class="panel-footer">
 				<div class="row">
 					<div class="col-md-12 text-right">
-						<button id="cl_frm_act_cal" class="btn btn-default modal-dismiss">Cerrar</button>
+						<button id="cl_frm_act_cal" class="btn btn-dark modal-dismiss">Cerrar</button>
 					</div>
 				</div>
 			</footer>

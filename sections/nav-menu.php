@@ -8,7 +8,7 @@
 		</li>
 		<li class="nav-parent">
 			<a>
-				<i class="fa fa-table" aria-hidden="true"></i>
+				<i class="fa fa-file-text-o" aria-hidden="true"></i>
 				<span>Reportes</span>
 			</a>
 			<ul class="nav nav-children">
