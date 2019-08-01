@@ -44,6 +44,7 @@
 				background: #222;
 				width: 100%;
 			}
+			.alert{ display: none; margin-top: 20px; }
 		</style>
 	</head>
 	
@@ -93,7 +94,8 @@
 									<button type="button" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Ingresar</button>
 								</div>
 							</div>
-
+							<hr>
+							<?php include( "sections/notificaciones/alert.html" );?>
 						</form>
 					</div>
 				</div>
@@ -122,6 +124,7 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
+		<script src="js/fn-ui.js"></script>
 		<script src="js/fn-acceso.js"></script>
 		
 	</body>

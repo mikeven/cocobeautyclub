@@ -61,10 +61,28 @@ $("#frm_natributo").on('submit', function(e) {
     }
 });
 /* --------------------------------------------------------- */
+function iconoEstadoReservacion( e ){
+    // Devuelve la clase ícono correspondiente a una actividad según su tipo
+    var iconos = {  "pendiente" : "fa fa-clock-o",
+    				"chequeada" : "fa fa-check",
+                    "cancelada" : "fa fa-times-circle",
+                    "vencida" 	: "fa fa-exclamation" }; 
+    return iconos[e];
+}
+/* --------------------------------------------------------- */
 function mostrarReservacionCalendario( reservacion ){
 	// Muestra los datos de una reservación en la ficha desde calendario
     
-    $("#tit-reservacion h2").html( reservacion.actividad );
+    $(".rsv_nactividad").html( reservacion.actividad );
+    $("#nombre_rsv").html( reservacion.nombre );
+    $("#apellido_rsv").html( reservacion.apellido );
+    $("#email_rsv").html( reservacion.email );
+    $("#telefono_rsv").html( reservacion.telefono );
+    $("#fecha_rsv").html( reservacion.fecha );
+    $("#estado_rsv").html( reservacion.estado );
+    $("#i_estado_rsv").addClass( iconoEstadoReservacion( reservacion.estado ) );
+    $("#fecha_reg_rsv").html( reservacion.fecha_registro );
+    $("#fecha_canc_rsv").html( reservacion.fecha_cancelacion );
     /*$("#icono_actividad").addClass( iconoActividad( actividad.tipo ) );
     $("#panel_act_prop").addClass( "panel-" + claseColorAct( actividad.tipo ) );
     $("#panel_act_prop").show();

@@ -14,7 +14,7 @@
 
     checkSession();
  	
- 	$titulo_pagina = "Actividades";
+ 	$titulo_pagina = "Reservaciones";
  	$actividades = obtenerActividades( $dbh );
     $idu = $_SESSION["user"]["id"];
 ?>
@@ -67,9 +67,11 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 		<style type="text/css">
-			.btn-act-cal{
-				width: 60%;
-			}
+			.btn-act-cal{ width: 60%; }
+			#ficha-reservacion .fa, .panel-rsv-acciones a:hover{ color: #ed145b }
+			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
+			.data-info-reg{ color: #666; font-size: 14px; }
+			.info-reservacion-cal{ padding: 20px 0 }
 		</style>
 	</head>
 	

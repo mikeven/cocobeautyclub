@@ -95,7 +95,6 @@
 
     $("#selector_rsv_cal").on( "click", function(){
         // Evento invocador para mostrar datos de reservación en calendario
-        alert("clic");
         var idr = $(this).attr( "data-idr" );
         mostrarReservacion( idr, "ventana_cal" );
     });

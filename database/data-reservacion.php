@@ -9,7 +9,9 @@
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
 		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
 		a.nombre as actividad, a.descripcion, a.imagen, 
-		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha  
+		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha, 
+		date_format(r.fecha,'%d/%m/%Y %h:%i %p') as fecha_registro, 
+		date_format(r.fecha_cancelacion,'%d/%m/%Y') as fecha_cancelacion 
 		from actividad a, horario h, reservacion r where r.HORARIO_id = h.id and 
 		h.ACTIVIDAD_id = a.id and r.id = $idr";
 		

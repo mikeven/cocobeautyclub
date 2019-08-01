@@ -558,7 +558,8 @@ html .panel-primary .panel-heading {
 }
 
 .widget-profile-info .profile-info .profile-footer {
-	border-top-color: rgba(0, 170, 255, 0.7);
+	border-top-color: rgba(255, 255, 255, 0.5);
+	/*border-top-color: rgba(0, 170, 255, 0.7);*/
 }
 /* Thumb Info */
 .thumb-info .thumb-info-type {
