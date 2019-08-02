@@ -16,6 +16,7 @@
  	
  	$titulo_pagina = "Reservaciones";
  	$actividades = obtenerActividades( $dbh );
+
     $idu = $_SESSION["user"]["id"];
 ?>
 <!doctype html>
@@ -112,15 +113,21 @@
 										<h2 class="panel-title">Actividades</h2>
 									</header>
 									<div class="panel-body">
-										<?php foreach ( $actividades as $a ) { ?>
+										<?php 
+											foreach ( $actividades as $a ) { 
+												$color = colorActividad( $a["id"] );
+										?>
 											<div>
-												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal"><?php echo $a["nombre"] ?></button>
+												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal" 
+												style="background: <?php echo $color?>">
+													<?php echo $a["nombre"] ?>
+												</button>
 											</div>
 										<?php } ?>	
 									</div>
 								</section>
 							</div>
-							
+
 							<div class="col-sm-9 col-xs-12">
 								
 								<div id='calendar'> </div>

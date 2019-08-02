@@ -7,6 +7,7 @@
 	include( "data-actividad.php" );
 	include( "data-reservacion.php" );
 
+
     require dirname(__FILE__) . '/utils.php';
 
 	// Parse the start/end parameters.
@@ -21,12 +22,14 @@
 	  $timeZone = new DateTimeZone($_GET['timeZone']);
 	}
 	// Actividades
-	$actividades = obtenerActividades( $dbh );
+	$actividades 	= obtenerActividades( $dbh );
+	
 
 	// Reservaciones registradas
-	$eventos 	= obtenerFechasReservadas( $dbh );
+	$eventos 		= obtenerFechasReservadas( $dbh );
 
 	// Pautas de actividades: horarios en que pueden asignarse reservaciones
+	// Se suman las pautas de actividades (como eventos de calendario) a las reservaciones registradas
 	foreach ( $actividades as $a ) {
 		$horarios 	= obtenerHorariosActividad( $dbh, $a["id"] );
 		$pautas 	= vectorHorarios( $horarios );
@@ -67,7 +70,7 @@
 	    	$e['start'] 	= $h["fecha_cal"];
 	    	$e['end'] 		= $h["fecha_cal"];
 	    	$e['rendering'] = 'background';
-	    	$e['color'] 	= 'green';
+	    	$e['color'] 	= colorActividad( $h["ida"] );
 
 	    	array_push( $pautas, $e );
 		}

@@ -40,6 +40,17 @@
 		return obtenerListaRegistros( $data );
 	}	
 	/* --------------------------------------------------------- */
+	function colorActividad( $id ){
+		// Devuelve un color asociado a una actividad según su id
+		$color = array(
+	        1 => '#5cd4e7',
+	        2 => '#fda2a2',
+	        3 => '#d6a2fd'
+	    );
+
+	    return $color[ $id ];
+	}
+	/* --------------------------------------------------------- */
 	if( isset( $_POST["nactividad"] ) ){ 
 		// Invocación desde: js/fn-actividad.js
 		include( "bd.php" );

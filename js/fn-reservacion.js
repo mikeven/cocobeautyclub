@@ -64,7 +64,7 @@ $("#frm_natributo").on('submit', function(e) {
 function iconoEstadoReservacion( e ){
     // Devuelve la clase ícono correspondiente a una actividad según su tipo
     var iconos = {  "pendiente" : "fa fa-clock-o",
-    				"chequeada" : "fa fa-check",
+    				"efectiva" : "fa fa-check",
                     "cancelada" : "fa fa-times-circle",
                     "vencida" 	: "fa fa-exclamation" }; 
     return iconos[e];

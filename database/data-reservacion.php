@@ -129,7 +129,7 @@
 		// Devuelve arreglo de las reservaciones asignadas a participantes (Calendario)
 
 		$e = array();
-	
+		
 		$reservaciones = obtenerReservaciones( $dbh );
 		$eventos = array();
 		
@@ -140,6 +140,7 @@
 	    	$e['start'] 		= $r["fecha_cal"];
 	    	$e['end']			= $r["fecha_cal"];
 	    	$e['constraint'] 	= "ACT".$r["ida"];
+    		$e['color'] 		= colorActividad( $r["ida"] );
 	    	
 	    	array_push( $eventos, $e );
 		}
