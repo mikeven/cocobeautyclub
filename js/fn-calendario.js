@@ -87,6 +87,14 @@
 			    }else{
 			    	console.log( info.event );
 			    }
+			},
+			eventDrop: function( info ) {
+				//console.log( info.event );
+				if ( !confirm( "Confirme el cambio de horario" ) ) {
+			    	info.revert();
+			    }else{
+			    	
+			    }
 			}
 		});
 
