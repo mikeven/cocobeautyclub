@@ -17,11 +17,9 @@
 		return mysqli_fetch_array( $data );
 	}
 	/* --------------------------------------------------------- */
-	function obtenerProductosRegistrados( $dbh ){
+	function obtenerListaProductos( $dbh ){
 		//Devuelve todos los registros de productos
-		$q = "select idPRODUCTO, nombre, descripcion, valor, imagen,  
-		date_format(fecha_creacion,'%d/%m/%Y') as fregistro from producto 
-		order by nombre asc";
+		$q = "select id, nombre, valor from producto order by nombre asc";
 		
 		$data = mysqli_query( $dbh, $q );
 

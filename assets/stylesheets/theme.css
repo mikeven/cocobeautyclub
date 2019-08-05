@@ -58,6 +58,10 @@ a:active {
 	top: 0;
 }
 
+.panel-footer{
+	background: #fcfcfc;
+}
+
 /* Layout Base - Inner Wrapper */
 .inner-wrapper {
 	display: table;
@@ -3709,7 +3713,7 @@ html.dark .form-bordered .form-group {
 .input-group-icon input.form-control,
 .input-search input.form-control {
 	font-size: 12px;
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 	padding-right: 36px;
 }
 

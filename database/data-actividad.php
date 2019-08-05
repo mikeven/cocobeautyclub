@@ -23,8 +23,10 @@
 	function obtenerHorariosActividad( $dbh, $ida ){
 		// Devuelve los horarios en que está pautada una actividad
 
-		$q = "select id, date_format(fecha,'%Y-%m-%d %H:%i') as fecha_cal, 
-		ACTIVIDAD_id as ida from horario where ACTIVIDAD_id = $ida";
+		$q = "select id, date_format(fecha,'%Y-%m-%d %H:%i') as fecha_cal,
+		date_format(fecha,'%d/%m %h:%i %p') as fecha_horam,  
+		ACTIVIDAD_id as ida from horario where ACTIVIDAD_id = $ida 
+		and fecha > date_add( NOW(), interval -4 hour )";
 		
 		$data = mysqli_query( $dbh, $q );
 		return obtenerListaRegistros( $data );
@@ -38,6 +40,36 @@
 		
 		$data = mysqli_query( $dbh, $q );
 		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
+	function obtenerHorarioPorId( $dbh, $id ){
+		// Devuelve los datos de un horario dado su id
+		$q = "select id, date_format(fecha,' %d/%m %h:%i %p') as fecha, cupo 
+		from horario where id = $id";
+		
+		$data = mysqli_query( $dbh, $q );
+		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
+		return $registro;
+	}
+	/* --------------------------------------------------------- */
+	function cuposTomados( $dbh, $idh ){
+		// Devuelve la cantidad de reservaciones de una actividad que cubren un cupo
+		// Reservaciones en estado: 'pendiente', 'efectiva', 'caducada'
+		$q = "select count(id) as reservados from reservacion 
+		where estado <> 'cancelada' and HORARIO_id = $idh";
+		
+		$data = mysqli_query( $dbh, $q );
+		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
+		return $registro;
+	}
+	/* --------------------------------------------------------- */
+	function cuposDisponibles( $dbh, $idh ){
+		// Devuelve la cantidad de cupos disponibles de una actividad en un horario
+		$horario = obtenerHorarioPorId( $dbh, $idh );
+		$cupo_h = $horario["cupo"];
+		$tomados = cuposTomados( $dbh, $idh );
+
+		return $cupo_h - $tomados["reservados"];
 	}	
 	/* --------------------------------------------------------- */
 	function colorActividad( $id ){

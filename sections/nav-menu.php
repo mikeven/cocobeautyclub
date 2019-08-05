@@ -1,7 +1,7 @@
 <nav id="menu" class="nav-main" role="navigation">
 	<ul class="nav nav-main">
 		<li class="nav-active">
-			<a href="inicio.php">
+			<a href="reservaciones.php">
 				<i class="fa fa-calendar" aria-hidden="true"></i>
 				<span>Reservaciones</span>
 			</a>

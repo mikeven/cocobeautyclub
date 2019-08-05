@@ -40,26 +40,31 @@
 									Reservada el 
 									<span id="fecha_reg_rsv"></span>
 								</div>
-								<div class="data-info-reg">
+								<div id="dataf_registro" class="data-info-reg datafe">
 									Registrada por:  
-									<span id="autor_reg_rsv">Participante</span> 
+									<span id="autor_reg_rsv"></span> 
 								</div>
-								<div class="data-info-reg">
+								<div id="dataf_cancelacion" class="data-info-reg datafe">
 									Cancelada por:  
-									<span id="autor_reg_rsv">Nombre administrador</span>
+									<span id="autor_canc_rsv"></span>
 									(<span id="fecha_canc_rsv"></span>)
+								</div>
+								<div id="dataf_modificacion" class="data-info-reg datafe">
+									Modificada por:  
+									<span id="autor_mod_rsv"></span>
+									(<span id="fecha_mod_rsv"></span>)
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="panel-footer panel-footer-btn-group panel-rsv-acciones">
-						<a href="#">
+						<a id="ax_mod_fecha" href="#" class="ax_rsv">
 							<i class="fa fa-calendar mr-xs"></i> Cambiar fecha
 						</a>
-						<a href="#">
+						<a id="ax_cancelar" href="#" class="ax_rsv">
 							<i class="fa fa-times mr-xs"></i> Cancelar reservación
 						</a>
-						<a href="#">
+						<a id="ax_reg_asistencia" href="#" class="ax_rsv">
 							<i class="fa fa-check-square mr-xs"></i> Registrar asistencia
 						</a>
 					</div>

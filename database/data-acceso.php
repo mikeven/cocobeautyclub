@@ -17,6 +17,17 @@
 		return $data_u;
 	}
 	/* --------------------------------------------------------- */
+	function obtenerUsuarioPorId( $dbh, $id ){
+		// Devuelve los datos del usuario por su id
+		$data_u = NULL;
+		$q = "select * from usuario where id = $id";
+		
+		$data = mysqli_query( $dbh, $q );
+		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
+		
+		return $registro;
+	}
+	/* --------------------------------------------------------- */
 	function actualizarUltimoIngreso( $dbh, $idp ){
 		// Actualiza la fecha de último inicio de sesión de un usuario
 		$q = "update usuario set ultimo_ingreso = NOW() where id = $idp";
@@ -48,7 +59,6 @@
 		
 		return $data_login;
 	}
-	
 	/* --------------------------------------------------------- */
 	function checkSession(){
 		// Redirecciona a la página de inicio de sesión en caso de no existir sesión de usuario
@@ -57,6 +67,14 @@
 		}else{
 			echo "<script> window.location = 'index.php'</script>";		
 		}
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["uidAdmin"] ) ){ 
+		// Invocación desde: js/fn-reservacion.js
+		include( "bd.php" );
+		
+		$admin = obtenerUsuarioPorId( $dbh, $_POST["uidAdmin"] );
+		echo json_encode( $admin );
 	}
 	/* --------------------------------------------------------- */
 	//Inicio de sesión (asinc)

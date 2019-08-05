@@ -8,10 +8,12 @@
 
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
 		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
-		a.nombre as actividad, a.descripcion, a.imagen, 
+		r.usuario_registro, r.usuario_cancelacion, r.usuario_modificacion, 
+		a.id as ida, a.nombre as actividad, a.descripcion, a.imagen, h.id as idhorario, 
 		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha, 
-		date_format(r.fecha,'%d/%m/%Y %h:%i %p') as fecha_registro, 
-		date_format(r.fecha_cancelacion,'%d/%m/%Y') as fecha_cancelacion 
+		date_format(r.fecha,'%d/%m/%Y %h:%i %p') as fecha_registro,
+		date_format(r.fecha_cambio,'%d/%m/%Y %h:%i %p') as fecha_actualizacion, 
+		date_format(r.fecha_cancelacion,'%d/%m/%Y %h:%i %p') as fecha_cancelacion 
 		from actividad a, horario h, reservacion r where r.HORARIO_id = h.id and 
 		h.ACTIVIDAD_id = a.id and r.id = $idr";
 		
@@ -43,7 +45,8 @@
 		a.nombre as actividad, a.descripcion, a.imagen, a.id as ida,  
 		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha_dia,
 		date_format(h.fecha,'%Y-%m-%d %H:%i') as fecha_cal from actividad a, horario h, 
-		reservacion r where r.HORARIO_id = h.id and h.ACTIVIDAD_id = a.id";
+		reservacion r where r.HORARIO_id = h.id and h.ACTIVIDAD_id = a.id 
+		and r.estado <> 'cancelada'";
 
 		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
 	}
@@ -80,6 +83,45 @@
 		
 		return $actualizado;
 	}
+	/* --------------------------------------------------------- */
+	function actualizarReservacion( $dbh, $reservacion ){
+		// Actualiza el horario de una reservación
+		$actualizado = 1;
+		$q = "update reservacion set HORARIO_id = $reservacion[idhorario], 
+		usuario_modificacion = $reservacion[iduadmin], fecha_cambio = NOW() 
+		where id = $reservacion[idreservacion]";
+		
+		mysqli_query ( $dbh, $q );
+		if( mysqli_affected_rows( $dbh ) == -1 ) $actualizado = 0;
+		
+		return $actualizado;
+	}
+	/* --------------------------------------------------------- */
+	function cancelarReservacionAdmin( $dbh, $reservacion ){
+		// Actualiza una reservación como cancelada
+		$actualizado = 1;
+		$q = "update reservacion set estado = 'cancelada', 
+		usuario_cancelacion = $reservacion[iduadmin], fecha_cancelacion = NOW() 
+		where id = $reservacion[idreservacion]";
+		
+		mysqli_query ( $dbh, $q );
+		if( mysqli_affected_rows( $dbh ) == -1 ) $actualizado = 0;
+		
+		return $actualizado;
+	}
+	/* --------------------------------------------------------- */
+	function iconoEstado( $e ){
+      // Devuelve el ícono reservación según estado
+
+      $icono_estado = array(
+        'pendiente' => "<i class='fa fa-clock-o' aria-hidden='true'></i>",
+        'efectiva' 	=> "<i class='fa fa-check' aria-hidden='true'></i>",
+        'cancelada' => "<i class='fa fa-times-circle' aria-hidden='true'></i>", 
+        'caducada'	=> "<i class='fa fa-exclamation' aria-hidden='true'></i>"
+      );
+
+      return $icono_estado[ $e ];
+    }
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["reservar"] ) ){ 
 		// Invocación desde: js/fn-actividad.js
@@ -161,6 +203,42 @@
 			$res["exito"] = -1;
 			$res["mje"] = "Error al obtener actividad";
 		}
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["mod_hor_rsv"] ) ){ 
+		// Invocación desde: js/fn-reservacion.js
+		include( "bd.php" );
+
+		parse_str( $_POST["mod_hor_rsv"], $reservacion );
+		
+		$rsp = actualizarReservacion( $dbh, $reservacion );
+		if( $rsp != 0 ){
+			$res["exito"] = 1;
+			$res["mje"] = "Reservación modificada con éxito";
+		}else{
+			$res["exito"] = -1;
+			$res["mje"] = "Error al modificar reservación";
+		}
+
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["cancelar_rsv"] ) ){ 
+		// Invocación desde: js/fn-reservacion.js
+		include( "bd.php" );
+
+		parse_str( $_POST["cancelar_rsv"], $reservacion );
+		
+		$rsp = cancelarReservacionAdmin( $dbh, $reservacion );
+		if( $rsp != 0 ){
+			$res["exito"] = 1;
+			$res["mje"] = "Reservación cancelada con éxito";
+		}else{
+			$res["exito"] = -1;
+			$res["mje"] = "Error al cancelar reservación";
+		}
+
 		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */

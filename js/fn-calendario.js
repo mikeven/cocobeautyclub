@@ -81,8 +81,12 @@
 	        	//console.log( info.event );
 	        	var idr = info.event.id;
 
-			    $("#selector_rsv_cal").attr( "data-idr", idr );
-			    $("#selector_rsv_cal").click();
+			    if( info.event.rendering != "background" ){
+			    	$("#selector_rsv_cal").attr( "data-idr", idr );
+			    	$("#selector_rsv_cal").click();
+			    }else{
+			    	console.log( info.event );
+			    }
 			}
 		});
 

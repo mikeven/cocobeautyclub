@@ -1,6 +1,6 @@
 <?php
     /*
-     * CBC Admin - Pagina de inicio
+     * CBC Admin - Pagina detalle reservación
      * 
      */
     session_start();
@@ -8,14 +8,30 @@
     include( "database/bd.php" );
     include( "database/data-acceso.php" );
     include( "database/data-actividad.php" );
+    include( "database/data-productos.php" );
     include( "database/data-reservacion.php" );
 
     include( "fn/fn-acceso.php" );
+    include( "fn/fn-reservacion.php" );
 
     checkSession();
  	
- 	$titulo_pagina = "Reservaciones";
- 	$actividades = obtenerActividades( $dbh );
+ 	$titulo_pagina = "Reservación";
+ 	if( isset( $_GET["r"] ) && ( is_numeric( $_GET["r"] ) ) ){
+ 		$idr = $_GET["r"];
+ 		$reservacion = obtenerReservacionPorId( $dbh, $idr );
+ 		$icono_e = iconoEstado( $reservacion["estado"] );
+ 		
+ 		if( isset( $_GET["accion"] ) ){
+ 			$accion = $_GET["accion"];
+ 			if( $accion == "cambio-fecha" ){
+ 				$horarios = obtenerHorariosActividad( $dbh, $reservacion["ida"] );
+ 			}
+ 			if( $accion == "asistencia" ){
+ 				$productos = obtenerListaProductos( $dbh );
+ 			}
+ 		}
+ 	}
 
     $idu = $_SESSION["user"]["id"];
 ?>
@@ -68,19 +84,13 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 		<style type="text/css">
-			.btn-act-cal{ width: 80%; font-size: 14px; text-align: left; }
-			#ficha-reservacion .fa, .panel-rsv-acciones a:hover{ color: #ed145b }
-			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
-			.data-info-reg{ color: #666; font-size: 14px; }
-			.info-reservacion-cal{ padding: 20px 0 }
-			.datafe{ display: none; }
-			/*.menu_act_cal{
-				width: 100%;
-				color: #000; padding: 4px 8px;
-				font-size: 12px;
-				font-family: chanel;
-				height: 80%;
-			}*/
+			.icono_estado .fa, .txautor, .lnk_cancelar_rsv{ color: #ed145b  }
+			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }
+			.conf-canc_rsv{ display: none; }
+			.lnk_conf_canc_rsv, #ficha-reservacion .fa{ color: #ed145b }
+			.nota-compra{ font-size: 13px; color: #666; text-align: center;
+			padding: 8px 2px; }
+			.qcompra{ text-align: center; color:#ed145b; font-weight: bolder;  }
 		</style>
 	</head>
 	
@@ -112,41 +122,19 @@
 					</header>
 
 					<div class="row">
-						<section class="panel">
-
-							<div class="col-sm-3 col-xs-12">
-								<div id='script-warning'> </div>
-								<section class="panel">
-									<header class="panel-heading bg-dark">
-										<h4>Actividades</h4>
-									</header>
-									<div class="panel-body">
-										<?php 
-											foreach ( $actividades as $a ) { 
-												$color = colorActividad( $a["id"] );
-										?>
-											<div class="menu_act_cal" >
-												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal" 
-												style="background: <?php echo $color?>">
-													<i class="fa fa-book">
-													</i> <?php echo $a["nombre"] ?>
-												</button>
-											</div>
-										<?php } ?>	
-									</div>
-								</section>
-							</div>
-
-							<div class="col-sm-9 col-xs-12">
-								
-								<div id='calendar'> </div>
-								<a id="evtsrsv" href="#!" class="hidden">EVENTOS</a>
-								<a id="selector_rsv_cal" href="#reservacion-calendario" 
-								class="modal-sizes modal-with-zoom-anim" data-idr></a>
-								<?php include( "sections/modals/ficha-reservacion.php" ); ?>
-							</div>
-							
-						</section>
+						<div class="col-md-7 col-xs-12">
+							<?php include( "sections/ficha-data-reservacion.php" ); ?>
+						</div>
+						<div class="col-md-5 col-xs-12">
+							<?php 
+								if( $reservacion["estado"] == 'pendiente' ){
+									if( $accion == "cambio-fecha" ) 
+										include( "sections/cambio-fecha-rsv.php" );
+								}
+								if( $accion == "asistencia" ) 
+									include( "sections/asistencia-rsv.php" );
+							?>
+						</div>
 					</div>
 				</section>
 			</div>
@@ -171,15 +159,6 @@
 		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
 		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
 		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>	
-
-		<script src='assets/vendor/packages/core/main.js'></script>
-		<script src='assets/vendor/packages/interaction/main.js'></script>
-		<script src='assets/vendor/packages/daygrid/main.js'></script>
-		<script src='assets/vendor/packages/timegrid/main.js'></script>
-		<script src='assets/vendor/packages/list/main.js'></script>
-		<script src='assets/vendor/packages/core/locales/es.js'></script>
-
-		<script src="js/fn-calendario.js"></script>	
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
