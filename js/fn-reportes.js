@@ -10,7 +10,7 @@
 
 	'use strict';
 
-	$('#example').DataTable({
+	$('.cbcreportes').DataTable({
         sDom: "<'text-right mb-md'B>" + $.fn.dataTable.defaults.sDom,
         responsive: true,
         buttons: [ 'excel' ],

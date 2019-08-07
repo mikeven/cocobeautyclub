@@ -1,6 +1,6 @@
 <?php
     /*
-     * CBC Admin - Reporte participantes
+     * CBC Admin - Reporte de actividades
      * 
      */
     session_start();
@@ -16,8 +16,8 @@
 
     checkSession();
  	
- 	$titulo_pagina = "Lista de participantes";
- 	$participantes = obtenerReservaciones( $dbh );
+ 	$titulo_pagina = "Reporte de actividades";
+ 	$actividades = obtenerActividadesHorarios( $dbh );
 
     $idu = $_SESSION["user"]["id"];
 ?>
@@ -100,7 +100,7 @@
 
 				<section role="main" class="content-body hidden_">
 					<header class="page-header">
-						<h2>Lista de participantes</h2>
+						<h2>Lista de actividades</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -118,20 +118,29 @@
 						
 						<div class="panel-body">
 							<table class="table table-bordered table-striped mb-none cbcreportes" 
-							id="tabla-participantes">
+							id="tabla-actividades">
 								<thead>
 									<tr>
-										<th>Nombre</th>
-										<th>Email</th>
-										<th>Teléfono</th>
+										<th>Actividad</th>
+										<th>Fecha</th>
+										<th>Hora</th>
+										<th>Inscritos</th>
+										<th>Participantes</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ( $participantes as $p ) { ?>
+									<?php 
+										foreach ( $actividades as $a ) {
+											 $inscritos = obtenerInscritosHorario( $dbh, $a["idh"] );
+									?>
 									<tr class="gradeX">
-										<td><?php echo $p["nombre"]." ".$p["apellido"] ?></td>
-										<td><?php echo $p["email"] ?> </td>
-										<td><?php echo $p["telefono"] ?> </td>
+										<td><?php echo $a["nombre"] ?></td>
+										<td><?php echo $a["fecha"] ?> </td>
+										<td style="color: #ed145b; font-weight: bolder">
+											<?php echo $a["hora"] ?> 
+										</td>
+										<td><?php echo $inscritos["num"]."/".$inscritos["cupo"] ?></td>
+										<td></td>
 									</tr>
 									<?php } ?>
 								</tbody>

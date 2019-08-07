@@ -11,6 +11,26 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
+	function obtenerActividadesHorarios( $dbh ){
+		//Devuelve todos los registros de actividades y sus horarios
+		$q = "select a.id, a.nombre, date_format(h.fecha, '%d-%m-%Y') as fecha, 
+		date_format(h.fecha, '%h:%i %p') as hora, h.id as idh from actividad a, horario h 
+		where h.ACTIVIDAD_id = a.id order by fecha desc";
+		
+		$data = mysqli_query( $dbh, $q );
+		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
+	function obtenerInscritosHorario( $dbh, $idh ){
+		// Devuelve la cantidad de participantes inscritos y el cupo en un horario
+		$q = "select count(r.id) as num, h.cupo from reservacion r, horario h 
+		where r.HORARIO_id = h.id and h.id = $idh";
+
+		$data = mysqli_query( $dbh, $q );
+		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
+		return $registro;
+	}
+	/* --------------------------------------------------------- */
 	function obtenerActividadPorId( $dbh, $ida ){
 		//Devuelve el registro de una actividad dado su id
 		$q = "select id, nombre, descripcion, imagen from actividad where id = $ida";
