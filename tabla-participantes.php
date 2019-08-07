@@ -46,10 +46,8 @@
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" />
-	
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
 
@@ -62,25 +60,13 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 		<style type="text/css">
-			.dataTables_wrapper .dataTables_filter input {
-			    width: 100%;
-			    display: block;
-			    height: 34px;
-			    padding: 6px 12px;
-			    font-size: 14px;
-			    line-height: 1.42857143;
-			    color: #555555;
-			    background-color: #ffffff;
-			    background-image: none;
-			    border: 1px solid #cccccc;
-			    margin-left: 0 !important;
-			    border-radius: 0px;
-			    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-			    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-			    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-			    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-			    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-			}
+			.icono_estado .fa, .txautor, .lnk_cancelar_rsv{ color: #ed145b  }
+			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }
+			.conf-canc_rsv{ display: none; }
+			.lnk_conf_canc_rsv, #ficha-reservacion .fa{ color: #ed145b }
+			.nota-compra{ font-size: 13px; color: #666; text-align: center;
+			padding: 8px 2px; }
+			.qcompra{ text-align: center; color:#ed145b; font-weight: bolder;  }
 		</style>
 	</head>
 	
@@ -113,11 +99,11 @@
 
 					<section class="panel">
 						<header class="panel-heading bg-dark">
-							<h4>Basic</h4>
+							<h4>Participantes</h4>
 						</header>
 						<div class="panel-body">
 							<table class="table table-bordered table-striped mb-none" 
-							id="example">
+							id="datatable-tabletools">
 								<thead>
 									<tr>
 										<th>Rendering engine</th>
@@ -325,34 +311,14 @@
 		
 		<!-- Theme Initialization Files -->
 
-		<!--
-		<script src="assets/javascripts/theme.init.js"></script>
-		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-		
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-		-->
-
-
 		<!-- Examples -->
-		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 		
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+		<script src="assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 		
 		<script>
-			$(document).ready(function() {
+			/*$(document).ready(function() {
 			    $('#example').DataTable( {
-			        dom: 'Bfrtip',
-			        responsive: true,
+			        sDom: "<'text-right mb-md'TB>" + $.fn.dataTable.defaults.sDom,
 			        buttons: [
 			            'excel'
 			        ],
@@ -364,12 +330,14 @@
                     "infoFiltered": "(filtrados de _MAX_ regs)",
                     "search": "Buscar:",
                     "paginate": {
-			          "next": '<span class="fa fa-chevron-right"></span>',
-			          "previous": '<span class="fa fa-chevron-left"></span>'
-			        },
+                        "first":      "Primero",
+                        "last":       "Último",
+                        "next":       "Próximo",
+                        "previous":   "Anterior"
+                    },
                 },
 			    } );
-			});
+			} );*/
 		</script>
 
 		

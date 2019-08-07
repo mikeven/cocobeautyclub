@@ -1,6 +1,6 @@
-// Reservaciones
+// Reportes
 /*
- * fn-reservaciones.js
+ * fn-reportes.js
  *
  */
 /* --------------------------------------------------------- */	
@@ -10,97 +10,27 @@
 
 	'use strict';
 
-	$("#frm-cambio-fecha-rsv").validate({
-        highlight: function( label ) {
-            $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
+	$('#example').DataTable({
+        sDom: "<'text-right mb-md'B>" + $.fn.dataTable.defaults.sDom,
+        responsive: true,
+        buttons: [ 'excel' ],
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ resultados por página",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando pág _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros",
+            "infoFiltered": "(filtrados de _MAX_ regs)",
+            "search": "",
+            "paginate": {
+              "next": '<span class="fa fa-chevron-right"></span>',
+              "previous": '<span class="fa fa-chevron-left"></span>'
+            },
         },
-        success: function( label ) {
-            $(label).closest('.form-group').removeClass('has-error');
-            label.remove();
-        },
-        onkeyup: false,
-        errorPlacement: function( error, element ) {
-            var placement = element.closest('.input-group');
-            if (!placement.get(0)) {
-                placement = element;
-            }
-            if (error.text() !== '') {
-                placement.after(error);
-            }
-        },
-        submitHandler: function(form) {
-            modificarHorarioReservacion();
-        }
     });
 
-    /* --------------------------------------------------------- */
-
-    $(".frm-cancelar-rsv").validate({
-        highlight: function( label ) {
-            $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
-        },
-        success: function( label ) {
-            $(label).closest('.form-group').removeClass('has-error');
-            label.remove();
-        },
-        onkeyup: false,
-        errorPlacement: function( error, element ) {
-            var placement = element.closest('.input-group');
-            if (!placement.get(0)) {
-                placement = element;
-            }
-            if (error.text() !== '') {
-                placement.after(error);
-            }
-        },
-        submitHandler: function(form) {
-            cancelarReservacion();
-        }
-    });
-	
-	/* --------------------------------------------------------- */
-    
-    $("#frm-reg-asistencia").validate({
-        highlight: function( label ) {
-            $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
-        },
-        success: function( label ) {
-            $(label).closest('.form-group').removeClass('has-error');
-            label.remove();
-        },
-        onkeyup: false,
-        errorPlacement: function( error, element ) {
-            var placement = element.closest('.input-group');
-            if (!placement.get(0)) {
-                placement = element;
-            }
-            if (error.text() !== '') {
-                placement.after(error);
-            }
-        },
-        submitHandler: function(form) {
-            //registrarAsistencia();
-        }
-    });
-
-    /* --------------------------------------------------------- */
-
-    $(".lnk_cancelar_rsv").on( "click", function(){
-        // Mostrar confirmación para cancelar reservación
-        $(this).hide();
-        $(".conf-canc_rsv").fadeIn();
-    });
-
-    $(".noconf_canc_rsv").on( "click", function(){
-        // Cancelar acción para cancelar reservación
-        $(".conf-canc_rsv").hide();
-        $(".lnk_cancelar_rsv").fadeIn();
-    });
-
-    $(".lnk_conf_canc_rsv").on( "click", function(){
-        // Invoca el envío del formulario para cancelar una reservación
-        $("#frm-cancelar-rsv").submit();
-    });
+    $( ".table-bordered" ).wrap( "<div class='table-responsive'></div>" );
+    $(".dt-button").removeClass("dt-button").addClass("btn btn-sm btn-dark");
+    $(".dataTables_filter input").attr("placeholder", "Buscar");
 
     /* --------------------------------------------------------- */
 

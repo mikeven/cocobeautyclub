@@ -8,19 +8,18 @@
 		var $table = $('#datatable-tabletools');
 
 		$table.dataTable({
-			sDom: "<'text-right mb-md'T>" + $.fn.dataTable.defaults.sDom,
-			oTableTools: {
-				
-				"aButtons": [
-                    "copy",
-                    
-                    {
-                        
-                        
-                        "aButtons":    [ "csv", "xls", "pdf" ]
-                    }
-                ]
-			}
+
+			sDom: "<'text-right mb-md'BT>" + $.fn.dataTable.defaults.sDom,
+			"oTableTools": {
+            "aButtons": [
+                "copy",
+                
+                {
+                    sExtends: 'xls',
+					sButtonText: 'Excel'
+                }
+            ]
+        }
 		});
 
 	};

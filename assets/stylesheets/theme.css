@@ -508,6 +508,11 @@ a:active {
 	html.sidebar-left-collapsed.sidebar-right-opened .sidebar-left {
 		margin-left: -300px;
 	}
+
+	/*DataTable*/
+	.table-responsive {
+	    overflow-x: auto;
+	}
 }
 /* Content With Menu - Boxed Layout Fixing Spacement on Bottom */
 @media only screen and (min-width: 1200px) {
@@ -521,6 +526,10 @@ a:active {
 		display: table;
 		table-layout: fixed;
 		width: 100%;
+	}
+
+	.table-responsive {
+	    overflow-x: unset;
 	}
 }
 /* Content With Menu - Menu Faux Column for Scroll and Boxed Layouts */
@@ -12651,7 +12660,12 @@ html.dark .table .actions-hover a {
 }
 /* Filter */
 .dataTables_wrapper .dataTables_filter label {
-	width: 50%;
+	/*width: 50%;*/
+	width: 100%;
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin-left: 20px;
 }
 
 .dataTables_wrapper .dataTables_filter input {

@@ -12,8 +12,8 @@
 				<span>Reportes</span>
 			</a>
 			<ul class="nav nav-children">
-				<li> <a href="participantes.php">Participantes</a></li>
-				<li> <a href="reporte-activiades.php">General de actividades</a></li>
+				<li> <a href="lista-participantes.php">Participantes</a></li>
+				<li> <a href="reporte-actividades.php">General de actividades</a></li>
 				<li> <a href="reporte-ventas.php">General de Ventas</a></li>
 			</ul>
 		</li>
