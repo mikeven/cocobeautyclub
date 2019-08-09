@@ -73,7 +73,7 @@
 			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
 			.data-info-reg{ color: #666; font-size: 14px; }
 			.info-reservacion-cal{ padding: 20px 0 }
-			.datafe{ display: none; }
+			.datafe, .hor_nvarsv{ display: none; }
 			/*.menu_act_cal{
 				width: 100%;
 				color: #000; padding: 4px 8px;
@@ -122,15 +122,26 @@
 									</header>
 									<div class="panel-body">
 										<?php 
-											foreach ( $actividades as $a ) { 
+											foreach ( $actividades as $a ) {
+												$horarios = obtenerHorariosActividad( $dbh, $a["id"] );
 												$color = colorActividad( $a["id"] );
 										?>
 											<div class="menu_act_cal" >
-												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal" 
+												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal" data-trg="hor<?php echo $a['id'] ?>" 
 												style="background: <?php echo $color?>">
 													<i class="fa fa-book">
 													</i> <?php echo $a["nombre"] ?>
 												</button>
+											</div>
+											<div id="hor<?php echo $a['id'] ?>" class="hor_nvarsv">
+												<?php foreach ( $horarios as $h ) { ?>
+												<div>
+													<span><?php echo $h["fecha_horam"]?></span>
+													<button class="mb-xs mt-xs mr-xs btn btn-xs btn-dark">
+														<i class="fa fa-plus"></i><i class="fa fa-book"></i>
+													</button>
+												</div>
+												<?php } ?>
 											</div>
 										<?php } ?>	
 									</div>

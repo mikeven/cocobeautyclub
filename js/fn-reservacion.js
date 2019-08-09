@@ -102,6 +102,13 @@
         $("#frm-cancelar-rsv").submit();
     });
 
+    $(".btn-act-cal").on( "click", function(){
+        // Muestra / Oculta los horarios disponibles para reservar desde calendario
+        $( ".hor_nvarsv" ).hide();
+        var trg = $(this).attr("data-trg");
+        $("#" + trg).fadeToggle();
+    });
+
     /* --------------------------------------------------------- */
 
 }).apply( this, [ jQuery ]);

@@ -16,7 +16,7 @@
 
     checkSession();
  	
- 	$titulo_pagina = "Reporte de actividades";
+ 	$titulo_pagina = "Reporte general de actividades";
  	$actividades = obtenerActividadesHorarios( $dbh );
 
     $idu = $_SESSION["user"]["id"];
@@ -98,9 +98,9 @@
 				<?php include( "sections/left-sidebar.php" );?>
 				<!-- end: sidebar -->
 
-				<section role="main" class="content-body hidden_">
+				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>Lista de actividades</h2>
+						<h2>Reporte general de actividades</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -131,7 +131,9 @@
 								<tbody>
 									<?php 
 										foreach ( $actividades as $a ) {
-											 $inscritos = obtenerInscritosHorario( $dbh, $a["idh"] );
+											 $cant_insc = obtenerInscritosHorario( $dbh, $a["idh"] );
+											 $lista_ins = 
+											 obtenerParticipantesPorHorarioActividad( $dbh, $a["idh"] );
 									?>
 									<tr class="gradeX">
 										<td><?php echo $a["nombre"] ?></td>
@@ -139,8 +141,14 @@
 										<td style="color: #ed145b; font-weight: bolder">
 											<?php echo $a["hora"] ?> 
 										</td>
-										<td><?php echo $inscritos["num"]."/".$inscritos["cupo"] ?></td>
-										<td></td>
+										<td><?php echo $cant_insc["num"]."/".$cant_insc["cupo"] ?></td>
+										<td> 
+											<?php foreach ( $lista_ins as $l ) { ?>
+											<div>
+												<a href="#!"><?php echo $l["nombre"]." ".$l["apellido"];?></a>
+											</div>
+											<?php } ?>
+										</td>
 									</tr>
 									<?php } ?>
 								</tbody>

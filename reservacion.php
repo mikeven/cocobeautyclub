@@ -108,7 +108,6 @@
 				<section role="main" class="content-body hidden_">
 					<header class="page-header">
 						<h2>Reservaciones</h2>
-					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>

@@ -2,6 +2,7 @@
 	<header class="panel-heading bg-dark">
 		<h4>Fechas y cupos disponibles</h4>
 	</header>
+
 	<form id="frm-cambio-fecha-rsv" class="form-bordered">
 		<input type="hidden" name="idreservacion" value="<?php echo $idr ?>">
 		<input type="hidden" name="iduadmin" value="<?php echo $idu ?>">
@@ -31,12 +32,14 @@
 				</div>
 			</div>
 		</div>
-		<footer class="panel-footer">
-			<div class="row">
-				<div class="col-sm-12" style="text-align: right;">
-					<button class="btn btn-primary">Guardar</button>
+		<?php if( count( $horarios ) > 0 ) { ?>
+			<footer class="panel-footer">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: right;">
+						<button class="btn btn-primary">Guardar</button>
+					</div>
 				</div>
-			</div>
-		</footer>
+			</footer>
+		<?php } ?>
 	</form>
 </section>

@@ -39,7 +39,7 @@
 	}
 	/* --------------------------------------------------------- */
 	function obtenerReservaciones( $dbh ){
-
+		// Devuelve la lista de reservaciones realizadas que no estén canceladas
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
 		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
 		a.nombre as actividad, a.descripcion, a.imagen, a.id as ida,  
@@ -47,6 +47,16 @@
 		date_format(h.fecha,'%Y-%m-%d %H:%i') as fecha_cal from actividad a, horario h, 
 		reservacion r where r.HORARIO_id = h.id and h.ACTIVIDAD_id = a.id 
 		and r.estado <> 'cancelada'";
+
+		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
+	}
+	/* --------------------------------------------------------- */
+	function obtenerParticipantesPorHorarioActividad( $dbh, $idh ){
+		// Devuelve la lista de participantes registrados en una actividad en un horario 
+		// (reservaciones no canceladas)
+		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
+		$q = "select r.id, r.nombre, r.apellido from horario h, 
+		reservacion r where r.HORARIO_id = h.id and h.id = $idh and r.estado <> 'cancelada'";
 
 		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
 	}

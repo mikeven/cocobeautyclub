@@ -18,7 +18,6 @@
 						<?php echo $icono_e ?>
 						<span id="estado_rsv"><?php echo $reservacion["estado"]?></span>
 					</div>
-					
 				</div>
 			</div>
 		</header>
@@ -44,7 +43,7 @@
 						Reservada el 
 						<span><?php echo $reservacion["fecha_registro"]?></span>
 						<span class="txautor">Por 
-							<?php autorAccion( $reservacion["usuario_registro"] ) ?>
+							<?php autorAccion( $dbh, $reservacion["usuario_registro"] ) ?>
 						</span>
 					</div>
 
@@ -53,7 +52,7 @@
 							Actualizada el 
 							<span><?php echo $reservacion["fecha_actualizacion"]?></span>
 							<span class="txautor">Por  
-								<?php autorAccion( $reservacion["usuario_modificacion"] ) ?>
+								<?php autorAccion( $dbh, $reservacion["usuario_modificacion"] ) ?>
 							</span>
 						</div>
 					<?php } ?>
@@ -63,7 +62,7 @@
 							Cancelada el 
 							<span><?php echo $reservacion["fecha_cancelacion"]?></span>
 							<span class="txautor">Por  
-								<?php autorAccion( $reservacion["usuario_cancelacion"] ) ?>
+								<?php autorAccion( $dbh, $reservacion["usuario_cancelacion"] ) ?>
 							</span> 
 						</div>
 					<?php } ?>

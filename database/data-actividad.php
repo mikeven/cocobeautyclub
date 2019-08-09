@@ -24,7 +24,7 @@
 	function obtenerInscritosHorario( $dbh, $idh ){
 		// Devuelve la cantidad de participantes inscritos y el cupo en un horario
 		$q = "select count(r.id) as num, h.cupo from reservacion r, horario h 
-		where r.HORARIO_id = h.id and h.id = $idh";
+		where r.HORARIO_id = h.id and h.id = $idh and r.estado <> 'cancelada'";
 
 		$data = mysqli_query( $dbh, $q );
 		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;

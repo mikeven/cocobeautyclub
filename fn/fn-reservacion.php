@@ -5,8 +5,10 @@
 	/* --------------------------------------------------------- */
 	
 	/* --------------------------------------------------------- */
-	function autorAccion( $autor ){
-		echo ( $autor == NULL ) ? "Participante" : $autor;
+	function autorAccion( $dbh, $autor ){
+
+		$usuario = obtenerUsuarioPorId( $dbh, $autor );
+		echo ( $autor == NULL ) ? "Participante" : $usuario["nombre"]." ".$usuario["apellido"];
 	}
 	/* --------------------------------------------------------- */
 ?>
