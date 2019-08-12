@@ -78,7 +78,7 @@
 	        },
 			eventClick: function( info ) {
 	        	// Asignación de datos de actividad por clic en evento de calendario
-	        	//console.log( info.event );
+
 	        	var idr = info.event.id;
 
 			    if( info.event.rendering != "background" ){
@@ -90,10 +90,9 @@
 			},
 			eventDrop: function( info ) {
 				//console.log( info.event );
-				if ( !confirm( "Confirme el cambio de horario" ) ) {
+				
+				if ( !confirm( "Confirme el cambio de horario de esta reservación" ) ) {
 			    	info.revert();
-			    }else{
-			    	
 			    }
 			}
 		});

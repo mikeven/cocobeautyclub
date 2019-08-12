@@ -132,30 +132,9 @@
 
       return $icono_estado[ $e ];
     }
+	
 	/* --------------------------------------------------------- */
-	if( isset( $_POST["reservar"] ) ){ 
-		// Invocación desde: js/fn-actividad.js
-		include( "bd.php" );
-		include( "../fn/fn-mailing.php" );
-		
-		parse_str( $_POST["reservar"], $reservacion );
-		$reservacion = escaparCampos( $dbh, $reservacion );
-		$reservacion["token"] = obtenerTokenReservacion( $reservacion["email"] );
-		$rsp = reservar( $dbh, $reservacion );
-		
-		if( $rsp != 0 ){
-			$res["exito"] = 1;
-			$reservacion["id"] = $rsp;
-			$res["mje"] = "Su reservación se ha registrado con éxito";
-			//enviarMensajeEmail( "nueva_reservacion", $reservacion, $reservacion["email"] );
-		}else{
-			$res["exito"] = -1;
-			$res["mje"] = "Error al registrar reservación";
-		}
-
-		echo json_encode( $res );
-	}
-	/* --------------------------------------------------------- */
+	
 	if( isset( $_POST["cancelar_r"] ) ){ 
 		// Invocación desde: js/fn-actividad.js
 		include( "bd.php" );
@@ -247,6 +226,37 @@
 		}else{
 			$res["exito"] = -1;
 			$res["mje"] = "Error al cancelar reservación";
+		}
+
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["reservar"] ) ){ 
+		// Invocación desde: js/fn-reservacion.js
+		include( "bd.php" );
+		include( "data-actividad.php" );
+		//include( "../fn/fn-mailing.php" );
+		
+		parse_str( $_POST["reservar"], $reservacion );
+		$reservacion = escaparCampos( $dbh, $reservacion );
+		$reservacion["token"] = obtenerTokenReservacion( $reservacion["email"] );
+		
+		if( cuposDisponibles( $dbh, $reservacion["horario"] ) > 0 ){
+			
+			$rsp = reservar( $dbh, $reservacion );
+			
+			if( $rsp != 0 ){
+				$res["exito"] = 1;
+				$reservacion["id"] = $rsp;
+				$res["mje"] = "Reservación registrada con éxito";
+				//enviarMensajeEmail( "nueva_reservacion", $reservacion, $reservacion["email"] );
+			}else{
+				$res["exito"] = -1;
+				$res["mje"] = "Error al registrar reservación";
+			}
+		}else{
+			$res["exito"] = -1;
+			$res["mje"] = "Cupos agotados para este horario";	
 		}
 
 		echo json_encode( $res );

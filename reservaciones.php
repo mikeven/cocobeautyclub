@@ -1,6 +1,6 @@
 <?php
     /*
-     * CBC Admin - Pagina de inicio
+     * CBC Admin - Pagina de reservaciones
      * 
      */
     session_start();
@@ -74,6 +74,8 @@
 			.data-info-reg{ color: #666; font-size: 14px; }
 			.info-reservacion-cal{ padding: 20px 0 }
 			.datafe, .hor_nvarsv{ display: none; }
+			#hact_nvarsv, .cdispcal{ color: #ed145b }
+			.cdispcal{ font-size: 14px; font-weight: bolder; }
 			/*.menu_act_cal{
 				width: 100%;
 				color: #000; padding: 4px 8px;
@@ -116,36 +118,7 @@
 
 							<div class="col-sm-3 col-xs-12">
 								<div id='script-warning'> </div>
-								<section class="panel">
-									<header class="panel-heading bg-dark">
-										<h4>Actividades</h4>
-									</header>
-									<div class="panel-body">
-										<?php 
-											foreach ( $actividades as $a ) {
-												$horarios = obtenerHorariosActividad( $dbh, $a["id"] );
-												$color = colorActividad( $a["id"] );
-										?>
-											<div class="menu_act_cal" >
-												<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-default btn-act-cal" data-trg="hor<?php echo $a['id'] ?>" 
-												style="background: <?php echo $color?>">
-													<i class="fa fa-book">
-													</i> <?php echo $a["nombre"] ?>
-												</button>
-											</div>
-											<div id="hor<?php echo $a['id'] ?>" class="hor_nvarsv">
-												<?php foreach ( $horarios as $h ) { ?>
-												<div>
-													<span><?php echo $h["fecha_horam"]?></span>
-													<button class="mb-xs mt-xs mr-xs btn btn-xs btn-dark">
-														<i class="fa fa-plus"></i><i class="fa fa-book"></i>
-													</button>
-												</div>
-												<?php } ?>
-											</div>
-										<?php } ?>	
-									</div>
-								</section>
+								<?php include( "sections/panel-nueva-reservacion.php" ); ?>
 							</div>
 
 							<div class="col-sm-9 col-xs-12">
@@ -203,7 +176,6 @@
 		<script src="assets/javascripts/theme.init.js"></script>
 		<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
 		<script src="js/fn-reservacion.js"></script>
-
 		
 	</body>
 </html>

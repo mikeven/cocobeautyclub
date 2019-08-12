@@ -35,6 +35,27 @@
 
     /* --------------------------------------------------------- */
 
+    $("#frm-nvareservacion").validate({
+        highlight: function( label ) {
+            $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
+        },
+        success: function( label ) {
+            $(label).closest('.form-group').removeClass('has-error');
+            label.remove();
+        },
+        onkeyup: false,
+        errorPlacement: function( error, element ) {
+            var placement = element.closest('.input-group');
+            if (!placement.get(0)) {  placement = element;  }
+            if (error.text() !== '') { placement.after(error); }
+        },
+        submitHandler: function(form) {
+            ingresarReservacion();
+        }
+    });
+    
+    /* --------------------------------------------------------- */
+
     $(".frm-cancelar-rsv").validate({
         highlight: function( label ) {
             $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -104,9 +125,21 @@
 
     $(".btn-act-cal").on( "click", function(){
         // Muestra / Oculta los horarios disponibles para reservar desde calendario
-        $( ".hor_nvarsv" ).hide();
+        $( ".hor_nvarsv" ).slideUp(250);
         var trg = $(this).attr("data-trg");
-        $("#" + trg).fadeToggle();
+        $("#" + trg).slideToggle(300);
+    });
+
+    $(".bnva_rsv").on( "click", function(){
+        // Muestra los datos de una actividad para una nueva reservación
+        $("#id_horario_act").val( $(this).attr("data-idh") );
+        $("#desc_actividad").html( $(this).attr("data-nactividad") );
+        $("#hact_nvarsv").html( $(this).attr("data-horario") );
+    });
+
+    $(".cnc_nr").on( "click", function(){
+        //Reinicia el formulario de nueva reservación al cerrar la ventana emergente
+        $("#frm-nvareservacion")[0].reset();
     });
 
     /* --------------------------------------------------------- */
@@ -231,6 +264,27 @@ function autorUAdmin( idu, rsp ){
         success: function( response ){
             res = jQuery.parseJSON( response );
             $(rsp).html( res.nombre + " " + res.apellido );
+        }
+    });
+}
+/* --------------------------------------------------------- */
+function ingresarReservacion(){
+    //Invoca al servidor para registrar nueva reservación
+    var frm = $('#frm-nvareservacion').serialize();
+    $.ajax({
+        type:"POST",
+        url:"database/data-reservacion.php",
+        data:{ reservar: frm },
+        success: function( response ){
+            console.log(response);
+            res = jQuery.parseJSON( response );
+            if( res.exito == 1 ){ 
+                notificar( "Reservación", res.mje, "success" );
+                setTimeout( function() { location.reload( true ); }, 3000 );
+            }
+            if( res.exito == -1 ){ 
+                 notificar( "Reservación", res.mje, "error" );
+            }
         }
     });
 }
