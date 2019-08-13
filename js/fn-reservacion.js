@@ -100,7 +100,8 @@
             }
         },
         submitHandler: function(form) {
-            //registrarAsistencia();
+            $("#ft_guardar_reg_asist").hide();
+            registrarAsistencia();
         }
     });
 
@@ -276,8 +277,9 @@ function ingresarReservacion(){
         url:"database/data-reservacion.php",
         data:{ reservar: frm },
         success: function( response ){
-            console.log(response);
+            
             res = jQuery.parseJSON( response );
+            
             if( res.exito == 1 ){ 
                 notificar( "Reservación", res.mje, "success" );
                 setTimeout( function() { location.reload( true ); }, 3000 );
@@ -331,3 +333,23 @@ function cancelarReservacion(){
     });
 }
 /* --------------------------------------------------------- */
+function registrarAsistencia(){
+    //Invoca al servidor para registrar la asistencia / compra de un participante
+    var frm = $('#frm-reg-asistencia').serialize();
+    $.ajax({
+        type:"POST",
+        url:"database/data-reservacion.php",
+        data:{ asistencia: frm },
+        success: function( response ){
+            console.log(response);
+            res = jQuery.parseJSON( response );
+            if( res.exito == 1 ){ 
+                notificar( "Reservación", res.mje, "success" );
+                setTimeout( function() { location.reload( true ); }, 3000 );
+            }
+            if( res.exito == -1 ){ 
+                 notificar( "Reservación", res.mje, "error" );
+            }
+        }
+    });
+}

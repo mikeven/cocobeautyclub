@@ -120,6 +120,41 @@
 		return $actualizado;
 	}
 	/* --------------------------------------------------------- */
+	function hacerReservacionEfectiva( $dbh, $idr ){
+		// Actualiza una reservación como efectiva
+		$actualizado = 1;
+		$q = "update reservacion set estado = 'efectiva' where id = $idr";
+		
+		mysqli_query ( $dbh, $q );
+		if( mysqli_affected_rows( $dbh ) == -1 ) $actualizado = 0;
+		
+		return $actualizado;
+	}
+	/* --------------------------------------------------------- */
+	function registarItemCompra( $dbh, $idr, $idp, $cant ){
+		// Ingresa un ítem de compra asociado a una reservación
+		$q = "insert into compra ( RESERVACION_id, PRODUCTO_id, cantidad ) 
+		values ( $idr,  $idp, $cant )";
+		
+		$data = mysqli_query( $dbh, $q );
+		return mysqli_insert_id( $dbh );
+	}
+	/* --------------------------------------------------------- */
+	function ingresarCompra( $dbh, $reservacion ){
+		// Actualiza una reservación a estado efectiva y guarda la compra del participante 
+		
+		$idr = $reservacion["idreservacion"];
+		$rsp = hacerReservacionEfectiva( $dbh, $idr );
+		foreach ( $reservacion as $item => $cant ){
+		    if( $item != "idreservacion" && $item != "iduadmin" ){
+		    	list( $x, $idp ) = explode( '-', $item );
+		    	registarItemCompra( $dbh, $idr, $idp, $cant );
+		    }
+		}
+
+		return $rsp;
+	}
+	/* --------------------------------------------------------- */
 	function iconoEstado( $e ){
       // Devuelve el ícono reservación según estado
 
@@ -257,6 +292,23 @@
 		}else{
 			$res["exito"] = -1;
 			$res["mje"] = "Cupos agotados para este horario";	
+		}
+
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["asistencia"] ) ){ 
+		// Invocación desde: js/fn-reservacion.js
+		include( "bd.php" );
+
+		parse_str( $_POST["asistencia"], $reservacion );
+		$rsp = ingresarCompra( $dbh, $reservacion );
+		if( $rsp != 0 ){
+			$res["exito"] = 1;
+			$res["mje"] = "Registro de asistencia exitoso";
+		}else{
+			$res["exito"] = -1;
+			$res["mje"] = "Error al registrar asistencia";
 		}
 
 		echo json_encode( $res );

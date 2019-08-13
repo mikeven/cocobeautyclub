@@ -91,6 +91,10 @@
 			.nota-compra{ font-size: 13px; color: #666; text-align: center;
 			padding: 8px 2px; }
 			.qcompra{ text-align: center; color:#ed145b; font-weight: bolder;  }
+			.lsprods{ width: 95%; } 
+			.item_cmp{ padding: 5px; border:1px solid #f3f3f3; margin:2px 0; }
+			.icon_elim_ic{ float: right; color: #000; }
+			.icon_elim_ic:hover{ color: red; cursor: pointer; }
 		</style>
 	</head>
 	
@@ -130,8 +134,8 @@
 									if( $accion == "cambio-fecha" ) 
 										include( "sections/cambio-fecha-rsv.php" );
 								}
-								if( $accion == "asistencia" ) 
-									include( "sections/asistencia-rsv.php" );
+								if( $accion == "asistencia" && $reservacion["estado"] == 'pendiente' ) 
+									include( "sections/reg-asistencia.php" );
 							?>
 						</div>
 					</div>
@@ -170,7 +174,7 @@
 		<script src="assets/javascripts/theme.init.js"></script>
 		<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
 		<script src="js/fn-reservacion.js"></script>
-
+		<script src="js/fn-compra.js"></script>
 		
 	</body>
 </html>
