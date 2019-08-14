@@ -16,6 +16,7 @@
  	
  	$titulo_pagina = "Reservaciones";
  	$actividades = obtenerActividades( $dbh );
+ 	actualizarVigenciaReservaciones( $dbh );
 
     $idu = $_SESSION["user"]["id"];
 ?>

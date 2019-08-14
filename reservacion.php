@@ -134,8 +134,11 @@
 									if( $accion == "cambio-fecha" ) 
 										include( "sections/cambio-fecha-rsv.php" );
 								}
-								if( $accion == "asistencia" && $reservacion["estado"] == 'pendiente' ) 
-									include( "sections/reg-asistencia.php" );
+								if( isset( $accion ) ){
+									if( $accion == "asistencia" && 
+										$reservacion["estado"] == 'pendiente' ) 
+										include( "sections/reg-asistencia.php" );
+								}
 							?>
 						</div>
 					</div>

@@ -185,16 +185,34 @@ function autorAccion( reservacion, accion ){
 /* --------------------------------------------------------- */
 function ocultarAccionesDisponibles( reservacion ){
 	// Oculta las acciones disponibles sobre una reservación según estado
-	var enl_ra = "reservacion.php?r=" + reservacion.id + "&accion=asistencia";
+	
+    var enl_ra = "reservacion.php?r=" + reservacion.id + "&accion=asistencia";
 	$("#ax_reg_asistencia").attr( "href", enl_ra );
 
     var enl_mf = "reservacion.php?r=" + reservacion.id + "&accion=cambio-fecha";
     $("#ax_mod_fecha").attr( "href", enl_mf );
 
+    var enl_vr = "reservacion.php?r=" + reservacion.id;
+    $("#ax_ver_reservacion").attr( "href", enl_vr );
+
 	if( reservacion.estado == "caducada" || reservacion.estado == "efectiva" ) {
 		$("#ax_mod_fecha").hide();
 		$("#ax_cancelar").hide();
+        $("#ax_reg_asistencia").hide();
 	}
+
+    if( reservacion.estado != "efectiva" ) {
+        $("#ax_ver_reservacion").hide();
+    }
+
+    if( reservacion.estado == "pendiente" ) {
+        if( reservacion.fecha_pasada == 1 ){
+            $("#ax_cancelar").hide();
+            $("#ax_mod_fecha").hide();
+        }
+        else
+            $("#ax_reg_asistencia").hide();
+    }
 
 }
 /* --------------------------------------------------------- */
@@ -227,6 +245,7 @@ function mostrarReservacionCalendario( reservacion ){
     $("#telefono_rsv").html( reservacion.telefono );
     $("#fecha_rsv").html( reservacion.fecha );
     $("#estado_rsv").html( reservacion.estado );
+    $("#i_estado_rsv").removeClass();
     $("#i_estado_rsv").addClass( iconoEstadoReservacion( reservacion.estado ) );
     
     $("#img-rsv-act").attr( "src", "../images/" + reservacion.imagen );

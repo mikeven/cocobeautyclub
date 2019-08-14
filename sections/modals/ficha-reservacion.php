@@ -67,6 +67,9 @@
 						<a id="ax_reg_asistencia" href="#" class="ax_rsv">
 							<i class="fa fa-check-square mr-xs"></i> Registrar asistencia
 						</a>
+						<a id="ax_ver_reservacion" href="#" class="ax_rsv">
+							<i class="fa fa-book mr-xs"></i> Ver detalle
+						</a>
 					</div>
 					<footer class="panel-footer">
 				<div class="row">

@@ -13,7 +13,8 @@
 		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha, 
 		date_format(r.fecha,'%d/%m/%Y %h:%i %p') as fecha_registro,
 		date_format(r.fecha_cambio,'%d/%m/%Y %h:%i %p') as fecha_actualizacion, 
-		date_format(r.fecha_cancelacion,'%d/%m/%Y %h:%i %p') as fecha_cancelacion 
+		date_format(r.fecha_cancelacion,'%d/%m/%Y %h:%i %p') as fecha_cancelacion, 
+		( NOW() >= h.fecha ) as fecha_pasada
 		from actividad a, horario h, reservacion r where r.HORARIO_id = h.id and 
 		h.ACTIVIDAD_id = a.id and r.id = $idr";
 		
@@ -129,6 +130,15 @@
 		if( mysqli_affected_rows( $dbh ) == -1 ) $actualizado = 0;
 		
 		return $actualizado;
+	}
+	/* --------------------------------------------------------- */
+	function actualizarVigenciaReservaciones( $dbh ){
+		// Actualiza el estado de las reservaciones que ya pasaron su fecha de vigencia.
+		$q = "update reservacion inner join horario on 
+				reservacion.HORARIO_id = horario.id SET estado = 'caducada' 
+				where estado = 'pendiente' and ( NOW() >= horario.fecha )";
+
+		mysqli_query ( $dbh, $q );
 	}
 	/* --------------------------------------------------------- */
 	function registarItemCompra( $dbh, $idr, $idp, $cant ){
