@@ -215,7 +215,7 @@
 	    	$e['title'] 		= tituloEvento( $r );
 	    	$e['start'] 		= $r["fecha_cal"];
 	    	$e['end']			= $r["fecha_cal"];
-	    	$e['constraint'] 	= "ACT".$r["ida"];
+	    	$e['constraint'] 	= "RESERVABLE";//"ACT".$r["ida"];
     		$e['color'] 		= colorActividad( $r["ida"] );
 	    	
 	    	array_push( $eventos, $e );
@@ -324,4 +324,20 @@
 		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
+	if( isset( $_POST["mover_reserva"] ) ){
+		// Invocación desde: js/fn-actividad.js	
+		include( "bd.php" );
+		parse_str( $_POST["mover_reserva"], $reservacion );
+		
+		$rsp = actualizarReservacion( $dbh, $reservacion );
+		if( $rsp != 0 ){
+			$res["exito"] = 1;
+			$res["mje"] = "Reservación modificada con éxito";
+		}else{
+			$res["exito"] = -1;
+			$res["mje"] = "Error al modificar reservación";
+		}
+
+		echo json_encode( $res );
+	}
 ?>

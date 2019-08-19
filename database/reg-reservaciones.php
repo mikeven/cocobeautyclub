@@ -66,7 +66,7 @@
 		foreach ( $horarios as $h ) {
 			
 			$e['id'] 		= $h["id"];
-			$e['groupId'] 	= "ACT".$h["ida"];
+			$e['groupId'] 	= "RESERVABLE";//"ACT".$h["ida"];
 	    	$e['start'] 	= $h["fecha_cal"];
 	    	$e['end'] 		= $h["fecha_cal"];
 	    	$e['rendering'] = 'background';

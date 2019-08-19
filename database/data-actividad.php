@@ -21,6 +21,17 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
+	function obtenerPautasEnFecha( $dbh, $fecha ){
+		// Devuelve las actividades pautadas en una fecha dada
+		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
+		$q = "select a.id, a.nombre, date_format(h.fecha, '%d %b') as fecha, 
+		date_format(h.fecha, '%h:%i %p') as hora, h.id as idh from actividad a, horario h 
+		where h.ACTIVIDAD_id = a.id and h.fecha = '$fecha' order by a.nombre asc";
+
+		$data = mysqli_query( $dbh, $q );
+		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
 	function obtenerInscritosHorario( $dbh, $idh ){
 		// Devuelve la cantidad de participantes inscritos y el cupo en un horario
 		$q = "select count(r.id) as num, h.cupo from reservacion r, horario h 
@@ -92,6 +103,18 @@
 		return $cupo_h - $tomados["reservados"];
 	}	
 	/* --------------------------------------------------------- */
+	function obtenerOpcionesEnFecha( $dbh, $fecha ){
+		// Devuelve las opciones de actividades disponibles para una fecha
+		$opciones = array();
+		$pautas = obtenerPautasEnFecha( $dbh, $fecha );
+		foreach ( $pautas as $p ) {
+			$p["cupos"] = cuposDisponibles( $dbh, $p["idh"] );
+			$opciones[] = $p;
+		}
+
+		return $opciones;
+	}
+	/* --------------------------------------------------------- */
 	function colorActividad( $id ){
 		// Devuelve un color asociado a una actividad según su id
 		$color = array(
@@ -120,6 +143,18 @@
 		}
 
 		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["actividades_fecha"] ) ){ 
+		// Invocación desde: js/fn-actividad.js
+		include( "bd.php" );
+		include( "data-reservacion.php" );
+
+		$fecha = $_POST["actividades_fecha"];
+		$data["reservacion"] = obtenerReservacionPorId( $dbh, $_POST["idr"] );
+		$data["actividades"] = obtenerOpcionesEnFecha( $dbh, $fecha );
+
+		echo json_encode( $data );
 	}
 	/* --------------------------------------------------------- */
 ?>

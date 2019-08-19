@@ -77,13 +77,7 @@
 			.datafe, .hor_nvarsv{ display: none; }
 			#hact_nvarsv, .cdispcal{ color: #ed145b }
 			.cdispcal{ font-size: 14px; font-weight: bolder; }
-			/*.menu_act_cal{
-				width: 100%;
-				color: #000; padding: 4px 8px;
-				font-size: 12px;
-				font-family: chanel;
-				height: 80%;
-			}*/
+			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }
 		</style>
 	</head>
 	
@@ -129,6 +123,11 @@
 								<a id="selector_rsv_cal" href="#reservacion-calendario" 
 								class="modal-sizes modal-with-zoom-anim" data-idr></a>
 								<?php include( "sections/modals/ficha-reservacion.php" ); ?>
+								
+								<a id="selector_act_mult" href="#opciones-actividades" 
+								class="modal-sizes modal-with-zoom-anim"></a>
+								<?php include( "sections/modals/form-opciones-actividades.php" ); 
+								?>
 							</div>
 							
 						</section>
@@ -163,7 +162,8 @@
 		<script src='assets/vendor/packages/timegrid/main.js'></script>
 		<script src='assets/vendor/packages/list/main.js'></script>
 		<script src='assets/vendor/packages/core/locales/es.js'></script>
-
+		<script src="assets/vendor/fullcalendar/lib/moment.min.js"></script>
+		<script src="js/fn-actividad.js"></script>
 		<script src="js/fn-calendario.js"></script>	
 		
 		<!-- Theme Base, Components and Settings -->

@@ -89,11 +89,12 @@
 			    }
 			},
 			eventDrop: function( info ) {
-				//console.log( info.event );
 				
-				if ( !confirm( "Confirme el cambio de horario de esta reservación" ) ) {
-			    	info.revert();
-			    }
+				var fecha = obtenerFechaDestino( info.event.start );
+				obtenerActividadesFechaDestino( fecha, info.event.id );
+				$("#rvt_drag_cal").on( "click", function(){
+			        info.revert();
+			    });
 			}
 		});
 
@@ -113,9 +114,8 @@
 	/* --------------------------------------------------------- */
 }).apply(this, [ jQuery ]);
 
-
+/* --------------------------------------------------------- */
 function ajaxRSR(){
-    //Invoca al servidor para editar datos de área
     
     $.ajax({
         type:"POST",
@@ -126,3 +126,19 @@ function ajaxRSR(){
         }
     });
 }
+/* --------------------------------------------------------- */
+function obtenerFechaDestino( datafecha ){
+	// Devuelve la fecha destino a la que fue movida una actividad en calendario
+
+	let str = FullCalendar.formatDate( datafecha, {
+	  month: '2-digit',
+	  year: 'numeric',
+	  day: '2-digit',
+	  hour: '2-digit',
+	  timeZoneName: 'short',				 
+	  locale: 'en'
+	});
+
+	return moment(new Date( str )).format('YYYY-MM-DD HH:mm');
+}
+/* --------------------------------------------------------- */
