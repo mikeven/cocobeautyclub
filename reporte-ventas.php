@@ -1,22 +1,20 @@
 <?php
     /*
-     * CBC Admin - Pagina de reservaciones
+     * CBC Admin - Reporte general de ventas
      * 
      */
     session_start();
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
     include( "database/data-acceso.php" );
-    include( "database/data-actividad.php" );
-    include( "database/data-reservacion.php" );
+    include( "database/data-ventas.php" );
 
     include( "fn/fn-acceso.php" );
 
     checkSession();
  	
- 	$titulo_pagina = "Reservaciones";
- 	$actividades = obtenerActividades( $dbh );
- 	//actualizarVigenciaReservaciones( $dbh );
+ 	$titulo_pagina = "Reporte general de ventas";
+ 	$res_c_ventas = obtenerReservacionesConVentas( $dbh );
 
     $idu = $_SESSION["user"]["id"];
 ?>
@@ -41,21 +39,15 @@
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
 		<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" href="assets/vendor/magnific-popup/magnific-popup.css" />
-		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
-
-		<link href='assets/vendor/packages/core/main.css' rel='stylesheet' />
-		<link href='assets/vendor/packages/daygrid/main.css' rel='stylesheet' />
-		<link href='assets/vendor/packages/timegrid/main.css' rel='stylesheet' />
-		<link href='assets/vendor/packages/list/main.css' rel='stylesheet' />
+		<link rel="stylesheet" href="assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 
 		<!-- Specific Page Vendor CSS -->
-		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
-		<link rel="stylesheet" href="assets/vendor/morris/morris.css" />
+		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 
-		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.carousel.css" />
-		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.theme.css" />
-
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" />
+	
+		<!-- <link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" /> -->
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
 
@@ -64,12 +56,33 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
-		<link rel="stylesheet" href="assets/stylesheets/cupfsa-custom.css">
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 		<style type="text/css">
-			.btn-act-cal{ width: 80%; font-size: 14px; text-align: left; }
+			.dataTables_wrapper .dataTables_filter input {
+			    width: 100%;
+			    display: block;
+			    height: 34px;
+			    padding: 6px 12px;
+			    font-size: 14px;
+			    line-height: 1.42857143;
+			    color: #555555;
+			    background-color: #ffffff;
+			    background-image: none;
+			    border: 1px solid #cccccc;
+			    margin-left: 0 !important;
+			    border-radius: 0px;
+			    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			}
+
+			.cbcreportes thead tr { background: #000; color: #FFF; }
+
+
 			#ficha-reservacion .fa, .panel-rsv-acciones a:hover{ color: #ed145b }
 			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
 			.data-info-reg{ color: #666; font-size: 14px; }
@@ -78,9 +91,6 @@
 			#hact_nvarsv, .cdispcal{ color: #ed145b }
 			.cdispcal{ font-size: 14px; font-weight: bolder; }
 			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }
-
-			.conf-canc_rsv{ display: none; }
-			#frm-canc-rsv{ padding: 12px 0; }
 		</style>
 	</head>
 	
@@ -95,9 +105,9 @@
 				<?php include( "sections/left-sidebar.php" );?>
 				<!-- end: sidebar -->
 
-				<section role="main" class="content-body hidden_">
+				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>Reservaciones</h2>
+						<h2>Reporte general de ventas</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -111,34 +121,74 @@
 						</div>
 					</header>
 
-					<div class="row">
-						<section class="panel">
-
-							<div class="col-sm-3 col-xs-12">
-								<div id='script-warning'> </div>
-								<?php include( "sections/panel-nueva-reservacion.php" ); ?>
-							</div>
-
-							<div class="col-sm-9 col-xs-12">
-								
-								<div id='calendar'> </div>
-								<a id="evtsrsv" href="#!" class="hidden">EVENTOS</a>
-								<a id="selector_rsv_cal" href="#reservacion-calendario" 
-								class="modal-sizes modal-with-zoom-anim" data-idr></a>
-								<?php include( "sections/modals/ficha-reservacion.php" ); ?>
-								
-								<a id="selector_act_mult" href="#opciones-actividades" 
-								class="modal-sizes modal-with-zoom-anim"></a>
-								<?php include( "sections/modals/form-opciones-actividades.php" ); 
-								?>
-							</div>
-							
-						</section>
-					</div>
+					<section class="panel">
+						
+						<div class="panel-body">
+							<table class="table table-bordered table-striped mb-none" 
+							id="tabla-ventas">
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>Participante</th>
+										<th>Productos</th>
+										<th>Cantidad</th>
+										<th>Monto</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										$mtotal = 0; $ctotal = 0;
+										foreach ( $res_c_ventas as $r ) {
+											$ventas = 
+											obtenerVentasPorReservacion( $dbh, $r["id"] );
+									?>
+									<tr class="gradeX">
+										<td><?php echo $r["fecha"] ?></td>
+										<td>
+											<?php echo $r["nombre"]." ".$r["apellido"] ?> 
+										</td>
+										<td>
+											<?php 
+												$cprods = 0; $monto = 0;
+												foreach ( $ventas as $v ) { 
+													$cprods += $v["cantidad"];
+													$monto += $v["valor"];
+													$mtotal +=  $v["valor"];
+													$ctotal += $v["cantidad"];
+											?>
+												<div>
+													<?php echo $v["producto"].
+													" ($v[cantidad])"; ?>
+												</div>
+											<?php } ?>
+										</td>
+										<td><?php echo $cprods ?></td>
+										<td><?php echo "$".$monto ?></td>
+									</tr>
+									<?php } ?>
+									<tr class="gradeX">
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr class="gradeX" style="font-weight: bolder">
+										<td>Totales</td>
+										<td><?php echo count($res_c_ventas); ?></td>
+										<td></td>
+										<td><?php echo $ctotal; ?></td>
+										<td><?php echo "$".$mtotal; ?></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</section>
 				</section>
 			</div>
-
 		</section>
+
+		<?php include( "sections/modals/ficha-reservacion.php" ); ?>
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
@@ -166,8 +216,8 @@
 		<script src='assets/vendor/packages/list/main.js'></script>
 		<script src='assets/vendor/packages/core/locales/es.js'></script>
 		<script src="assets/vendor/fullcalendar/lib/moment.min.js"></script>
-		<script src="js/fn-actividad.js"></script>
-		<script src="js/fn-calendario.js"></script>	
+
+			
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -176,9 +226,20 @@
 		<script src="assets/javascripts/theme.custom.js"></script>
 		
 		<!-- Theme Initialization Files -->
-		<script src="js/fn-ui.js"></script>
-		<script src="assets/javascripts/theme.init.js"></script>
+
+		<!-- Examples -->
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+		
+		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
 		<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
+		
+		<script src="js/fn-ui.js"></script>
+		<script src="js/fn-reportes.js"></script>
 		<script src="js/fn-reservacion.js"></script>
 		
 	</body>

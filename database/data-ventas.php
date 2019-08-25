@@ -1,42 +1,27 @@
 <?php
 	/* --------------------------------------------------------- */
-	/* CBC - Datos sobre Reservaciones */
+	/* CBC - Datos sobre ventas */
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
-	function obtenerReservacionPorId( $dbh, $idr ){
-		// Devuelve el registro de una reservación dado su id
+	function obtenerReservacionesConVentas( $dbh ){
+		// Devuelve el registro de las reservaciones con ventas asociadas
 
-		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
-		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
-		r.usuario_registro, r.usuario_cancelacion, r.usuario_modificacion, 
-		a.id as ida, a.nombre as actividad, a.descripcion, a.imagen, h.id as idhorario, 
-		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha, 
-		date_format(r.fecha,'%d/%m/%Y %h:%i %p') as fecha_registro,
-		date_format(r.fecha_cambio,'%d/%m/%Y %h:%i %p') as fecha_actualizacion, 
-		date_format(r.fecha_cancelacion,'%d/%m/%Y %h:%i %p') as fecha_cancelacion, 
-		( NOW() >= h.fecha ) as fecha_pasada
-		from actividad a, horario h, reservacion r where r.HORARIO_id = h.id and 
-		h.ACTIVIDAD_id = a.id and r.id = $idr";
+		$q = "select r.id, r.nombre, r.apellido, date_format(h.fecha,'%d/%m/%Y ') as fecha
+		from horario h, reservacion r 
+		where r.HORARIO_id = h.id and r.id in (select RESERVACION_id from compra) 
+		order by h.fecha DESC";
 		
-		$data = mysqli_query( $dbh, $q );
-		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
-		
-		return $registro;
+		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
 	}
 	/* --------------------------------------------------------- */
-	function obtenerReservacionPorToken( $dbh, $token ){
+	function obtenerVentasPorReservacion( $dbh, $idr ){
 		// Devuelve el registro de una reservación dado su token de creación
 
-		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
-		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
-		a.nombre as actividad, a.descripcion, a.imagen, 
-		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha  
-		from actividad a, horario h, reservacion r where r.HORARIO_id = h.id and 
-		h.ACTIVIDAD_id = a.id and r.token_creacion = '$token'";
-		
-		$data = mysqli_query( $dbh, $q );
-		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
-		return $registro;
+		$q = "select c.id, p.nombre as producto, p.valor, c.cantidad 
+		from compra c, producto p, reservacion r 
+		where c.PRODUCTO_id = p.id and c.RESERVACION_id = r.id and r.id = $idr";
+
+		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
 	}
 	/* --------------------------------------------------------- */
 	function obtenerReservaciones( $dbh ){

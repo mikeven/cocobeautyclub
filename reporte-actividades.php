@@ -84,6 +84,16 @@
 			}
 
 			.cbcreportes thead tr { background: #000; color: #FFF; }
+
+
+			#ficha-reservacion .fa, .panel-rsv-acciones a:hover{ color: #ed145b }
+			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
+			.data-info-reg{ color: #666; font-size: 14px; }
+			.info-reservacion-cal{ padding: 20px 0 }
+			.datafe, .hor_nvarsv{ display: none; }
+			#hact_nvarsv, .cdispcal{ color: #ed145b }
+			.cdispcal{ font-size: 14px; font-weight: bolder; }
+			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }
 		</style>
 	</head>
 	
@@ -145,7 +155,12 @@
 										<td> 
 											<?php foreach ( $lista_ins as $l ) { ?>
 											<div>
-												<a href="#!"><?php echo $l["nombre"]." ".$l["apellido"];?></a>
+												<a href="#reservacion-calendario" 
+													class="modal-sizes modal-with-zoom-anim selector_rsv_cal" 
+													data-idr="<?php echo $l['id'] ?>">
+													<?php echo $l["nombre"]." ".$l["apellido"]." ( $l[telefono])";?>
+														
+												</a>
 											</div>
 											<?php } ?>
 										</td>
@@ -157,23 +172,36 @@
 					</section>
 				</section>
 			</div>
-
 		</section>
+
+		<?php include( "sections/modals/ficha-reservacion.php" ); ?>
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
+		<script src="assets/vendor/jquery-form/jquery.form.js"></script>
 		<script src="assets/vendor/nanoscroller/nanoscroller.js"></script>
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Specific Page Vendor -->
-		<script src="assets/vendor/select2/select2.js"></script>
-		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-		<script src="assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/owl-carousel/owl.carousel.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
+
+		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
+		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>	
+
+		<script src='assets/vendor/packages/core/main.js'></script>
+		<script src='assets/vendor/packages/interaction/main.js'></script>
+		<script src='assets/vendor/packages/daygrid/main.js'></script>
+		<script src='assets/vendor/packages/timegrid/main.js'></script>
+		<script src='assets/vendor/packages/list/main.js'></script>
+		<script src='assets/vendor/packages/core/locales/es.js'></script>
+		<script src="assets/vendor/fullcalendar/lib/moment.min.js"></script>
 
 			
 		
@@ -194,9 +222,11 @@
 		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+		<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
 		
 		<script src="js/fn-ui.js"></script>
 		<script src="js/fn-reportes.js"></script>
+		<script src="js/fn-reservacion.js"></script>
 		
 	</body>
 </html>

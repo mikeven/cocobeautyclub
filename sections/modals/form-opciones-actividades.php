@@ -18,7 +18,7 @@
 					<div class="row">
 						<div class="col-sm-12 text-right">
 							<button id="rvt_drag_cal" class="btn btn-default modal-dismiss cnc_nr">Cancelar</button>
-							<button class="btn btn-primary">Guardar</button>
+							<button id="btn_drag_rsv" class="btn btn-primary">Guardar</button>
 						</div>
 					</div>
 				</footer>

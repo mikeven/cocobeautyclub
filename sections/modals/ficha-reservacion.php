@@ -1,6 +1,6 @@
 <div id="reservacion-calendario" class="modal-block modal-block-primary mfp-hide">
 	<section class="panel">
-		<form id="ficha-reservacion" class="form-horizontal mb-lg">
+		<div id="ficha-reservacion" class="form-horizontal mb-lg">
 			
 			<input id="id_reservacion_cal" type="hidden" name="id_reservacion">
 				<section class="panel panel-group">
@@ -54,32 +54,36 @@
 									<span id="autor_mod_rsv"></span>
 									(<span id="fecha_mod_rsv"></span>)
 								</div>
+
+								<?php include( "form-cancelar-reservacion.php" ); ?>
 							</div>
+
 						</div>
 					</div>
 					<div class="panel-footer panel-footer-btn-group panel-rsv-acciones">
 						<a id="ax_mod_fecha" href="#" class="ax_rsv">
 							<i class="fa fa-calendar mr-xs"></i> Cambiar fecha
 						</a>
-						<a id="ax_cancelar" href="#" class="ax_rsv">
-							<i class="fa fa-times mr-xs"></i> Cancelar reservación
-						</a>
+
 						<a id="ax_reg_asistencia" href="#" class="ax_rsv">
 							<i class="fa fa-check-square mr-xs"></i> Registrar asistencia
 						</a>
+
 						<a id="ax_ver_reservacion" href="#" class="ax_rsv">
 							<i class="fa fa-book mr-xs"></i> Ver detalle
 						</a>
 					</div>
+					
 					<footer class="panel-footer">
-				<div class="row">
-					<div class="col-md-12 text-right">
-						<button id="cl_frm_act_cal" class="btn btn-dark modal-dismiss">Cerrar</button>
-					</div>
-				</div>
-			</footer>
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<button id="cl_frm_act_cal" class="btn btn-dark modal-dismiss">Cerrar</button>
+							</div>
+						</div>
+					</footer>
+				
 				</section>
 			
-		</form>
+		</div>
 	</section>
 </div>
