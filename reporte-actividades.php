@@ -85,6 +85,7 @@
 
 			.cbcreportes thead tr { background: #000; color: #FFF; }
 
+			.conf-canc_rsv{ display: none; }
 
 			#ficha-reservacion .fa, .panel-rsv-acciones a:hover{ color: #ed145b }
 			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
