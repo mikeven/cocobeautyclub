@@ -86,7 +86,7 @@
 		<style type="text/css">
 			.icono_estado .fa, .txautor, .lnk_cancelar_rsv{ color: #ed145b  }
 			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }
-			.conf-canc_rsv{ display: none; }
+			.conf-canc_rsv, #campos_compra{ display: none; }
 			.lnk_conf_canc_rsv, #ficha-reservacion .fa{ color: #ed145b }
 			.nota-compra{ font-size: 13px; color: #666; text-align: center;
 			padding: 8px 2px; }
@@ -95,6 +95,7 @@
 			.item_cmp{ padding: 5px; border:1px solid #f3f3f3; margin:2px 0; }
 			.icon_elim_ic{ float: right; color: #000; }
 			.icon_elim_ic:hover{ color: red; cursor: pointer; }
+
 		</style>
 	</head>
 	

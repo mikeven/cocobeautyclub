@@ -6,7 +6,8 @@
 		<input type="hidden" name="idreservacion" value="<?php echo $idr ?>">
 		<input type="hidden" name="iduadmin" value="<?php echo $idu ?>">
 		<div class="panel-body">
-			<div class="form-group">
+			
+			<div id="campos_compra" class="form-group">
 				<p>Registrar compra realizada</p>
 				
 				<table class="table table-bordered table-striped mb-none" 
