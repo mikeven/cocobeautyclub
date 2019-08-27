@@ -9,11 +9,13 @@
 		<div class="panel-body">
 			<div id="reg_asistencia" class="form-group">
 				<div class="radio-custom">
-					<input type="radio" id="si_asistio" name="asistio" class="rb_asist" required>
+					<input type="radio" id="si_asistio" name="asistio" 
+					class="rb_asist" required value="Sí">
 					<label for="si_asistio">Asistió</label>
 				</div>
 				<div class="radio-custom">
-					<input type="radio" id="no_asistio" name="asistio" class="rb_asist" required>
+					<input type="radio" id="no_asistio" name="asistio" 
+					class="rb_asist" required value="No">
 					<label for="no_asistio">No asistió</label>
 				</div>
 			</div>

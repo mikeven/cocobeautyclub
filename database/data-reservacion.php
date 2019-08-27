@@ -121,10 +121,11 @@
 		return $actualizado;
 	}
 	/* --------------------------------------------------------- */
-	function hacerReservacionEfectiva( $dbh, $idr ){
+	function hacerReservacionEfectiva( $dbh, $r ){
 		// Actualiza una reservación como efectiva
 		$actualizado = 1;
-		$q = "update reservacion set estado = 'efectiva' where id = $idr";
+		$q = "update reservacion set estado = 'efectiva', 
+		asistio = '$r[asistio]' where id = $r[idreservacion]";
 		
 		mysqli_query ( $dbh, $q );
 		if( mysqli_affected_rows( $dbh ) == -1 ) $actualizado = 0;
@@ -154,9 +155,10 @@
 		// Actualiza una reservación a estado efectiva y guarda la compra del participante 
 		
 		$idr = $reservacion["idreservacion"];
-		$rsp = hacerReservacionEfectiva( $dbh, $idr );
+		$rsp = hacerReservacionEfectiva( $dbh, $reservacion );
+
 		foreach ( $reservacion as $item => $cant ){
-		    if( $item != "idreservacion" && $item != "iduadmin" ){
+		    if( $item != "idreservacion" && $item != "iduadmin" && $item != "asistio" ){
 		    	list( $x, $idp ) = explode( '-', $item );
 		    	registarItemCompra( $dbh, $idr, $idp, $cant );
 		    }
@@ -312,6 +314,7 @@
 		include( "bd.php" );
 
 		parse_str( $_POST["asistencia"], $reservacion );
+		
 		$rsp = ingresarCompra( $dbh, $reservacion );
 		if( $rsp != 0 ){
 			$res["exito"] = 1;

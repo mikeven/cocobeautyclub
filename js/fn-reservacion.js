@@ -143,10 +143,13 @@
         $("#frm-nvareservacion")[0].reset();
     });
 
+    /* --------------------------------------------------------- */
+
     $(".rb_asist").on( "click", function(){
         var idrb = $(this).attr("id");
         if( idrb == "si_asistio") $("#campos_compra").fadeIn();
         else {
+            $("#campos_compra").fadeOut();
             $("#compra").html("");
         }
     });
