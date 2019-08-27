@@ -90,9 +90,8 @@ function obtenerActividadesFechaDestino( fecha, id_r ){
         url:"database/data-actividad.php",
         data:{ actividades_fecha: fecha, idr: id_r },
         success: function( response ){
-            
+            //console.log(response);
             res = jQuery.parseJSON( response );
-            //console.log(res);
             mostrarOpcionesActividades( res );
         }
     });
@@ -107,6 +106,7 @@ function moverReservacion(){
         url:"database/data-reservacion.php",
         data:{ mover_reserva: frm },
         success: function( response ){
+            console.log(response);
             $("#btn_drag_rsv").attr("disabled", true);
             res = jQuery.parseJSON( response );
             

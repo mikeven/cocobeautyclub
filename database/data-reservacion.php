@@ -8,7 +8,7 @@
 
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
 		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
-		r.usuario_registro, r.usuario_cancelacion, r.usuario_modificacion, 
+		r.token_creacion as token, r.usuario_registro, r.usuario_cancelacion, r.usuario_modificacion, 
 		a.id as ida, a.nombre as actividad, a.descripcion, a.imagen, h.id as idhorario, 
 		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha, 
 		date_format(r.fecha,'%d/%m/%Y %h:%i %p') as fecha_registro,
@@ -43,13 +43,26 @@
 		// Devuelve la lista de reservaciones realizadas que no estén canceladas
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
 		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
-		a.nombre as actividad, a.descripcion, a.imagen, a.id as ida,  
+		r.asistio, a.nombre as actividad, a.descripcion, a.imagen, a.id as ida,  
 		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha_dia,
 		date_format(h.fecha,'%Y-%m-%d %H:%i') as fecha_cal from actividad a, horario h, 
 		reservacion r where r.HORARIO_id = h.id and h.ACTIVIDAD_id = a.id 
 		and r.estado <> 'cancelada'";
 
 		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
+	}
+	/* --------------------------------------------------------- */
+	function alter( $dbh ){
+		//echo "alter table vendors add column asistio varchar(5) not null";
+		//$res = mysqli_query( $dbh, 'ALTER TABLE reservacion DROP COLUMN asisrio' );
+		$res = mysqli_query( $dbh, 'DESCRIBE reservacion' );
+		while( $row = mysqli_fetch_array( $res ) ) {
+		    echo "{$row['Field']} - {$row['Type']}\n";
+		}
+	}
+
+	function alter2( $dbh ){
+		$res = mysqli_query( $dbh, 'update reservacion set asistio = "Sí" where id = 25' );
 	}
 	/* --------------------------------------------------------- */
 	function obtenerParticipantesPorHorarioActividad( $dbh, $idh ){
@@ -263,13 +276,15 @@
 	if( isset( $_POST["cancelar_rsv"] ) ){ 
 		// Invocación desde: js/fn-reservacion.js
 		include( "bd.php" );
+		include( "../fn/fn-mailing.php" );
 
 		parse_str( $_POST["cancelar_rsv"], $reservacion );
-		
+		$reservacion = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
 		$rsp = cancelarReservacionAdmin( $dbh, $reservacion );
 		if( $rsp != 0 ){
 			$res["exito"] = 1;
 			$res["mje"] = "Reservación cancelada con éxito";
+			enviarMensajeEmail( "cancelacion_reservacion", $reservacion, $reservacion["email"] );
 		}else{
 			$res["exito"] = -1;
 			$res["mje"] = "Error al cancelar reservación";
@@ -330,12 +345,17 @@
 	if( isset( $_POST["mover_reserva"] ) ){
 		// Invocación desde: js/fn-actividad.js	
 		include( "bd.php" );
+		include( "../fn/fn-mailing.php" );
+
 		parse_str( $_POST["mover_reserva"], $reservacion );
 		
 		$rsp = actualizarReservacion( $dbh, $reservacion );
 		if( $rsp != 0 ){
 			$res["exito"] = 1;
 			$res["mje"] = "Reservación modificada con éxito";
+			$data_r = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
+			//print_r( $data_r );
+			enviarMensajeEmail( "actualizacion_reservacion", $data_r, $data_r["email"] );
 		}else{
 			$res["exito"] = -1;
 			$res["mje"] = "Error al modificar reservación";

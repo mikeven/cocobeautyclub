@@ -32,6 +32,7 @@
  			}
  		}
  	}
+ 	
  	if( !isset( $reservacion ) ) header( "Location: reservaciones.php" );
 
     $idu = $_SESSION["user"]["id"];
