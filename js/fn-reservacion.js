@@ -331,7 +331,7 @@ function modificarHorarioReservacion(){
         url:"database/data-reservacion.php",
         data:{ mod_hor_rsv: frm },
         success: function( response ){
-            //console.log(response);
+            console.log(response);
             res = jQuery.parseJSON( response );
             if( res.exito == 1 ){ 
                 notificar( "Reservación", res.mje, "success" );

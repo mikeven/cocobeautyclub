@@ -16,14 +16,16 @@
   function obtenerPlantillaMensaje( $accion ){
     //Devuelve la plantilla html de acuerdo al mensaje a ser enviado
     $archivos = array(
-      "nueva_reservacion"         => "nueva_reservacion.html",
+      "nueva_reservacion"           => "nueva_reservacion.html",
       "actualizacion_reservacion"   => "actualizacion_reservacion.html",
-      "cancelacion_reservacion"   => "cancelacion_reservacion.html",
-      "recordatorio_actividad"    => "recordatorio_actividad.html"
+      "cancelacion_reservacion"     => "cancelacion_reservacion.html",
+      "recordatorio_actividad"      => "recordatorio_actividad.html"
     );
 
     $archivo = $archivos[$accion];
-    return file_get_contents( "../fn/mailing/".$archivo );
+    $url_dir = "../fn/mailing/";
+    if( $accion == "recordatorio_actividad" ) $url_dir = "fn/mailing/";
+    return file_get_contents( $url_dir.$archivo );
   }
   /* --------------------------------------------------------- */
   function mensajeNuevaReservacion( $plantilla, $datos ){
@@ -53,8 +55,8 @@
     return $plantilla;
   }
   /* --------------------------------------------------------- */
-  function mensajeCancelacionReservacion( $plantilla, $datos ){
-    //Llenado de mensaje con plantilla de reservación cancelada
+  function mensajeAccionReservacion( $plantilla, $datos ){
+    //Llenado de mensaje con plantilla de reservación cancelada / recordatorio de asistencia
     
     $plantilla = str_replace( "{nombre}", $datos["nombre"], $plantilla );
     $plantilla = str_replace( "{actividad}", $datos["actividad"], $plantilla );
@@ -78,12 +80,12 @@
 
     if( $tmensaje == "cancelacion_reservacion" ){
       $sobre["asunto"] = "Reservación cancelada";
-      $sobre["mensaje"] = mensajeCancelacionReservacion( $plantilla, $datos );
+      $sobre["mensaje"] = mensajeAccionReservacion( $plantilla, $datos );
     }
 
     if( $tmensaje == "recordatorio_actividad" ){
-      $sobre["asunto"] = "Recordatorio Coco Beauty Club";
-      $sobre["mensaje"] = mensajeRecordarActividad( $plantilla, $datos );
+      $sobre["asunto"] = "Recuerda asistir a Coco Beauty Club";
+      $sobre["mensaje"] = mensajeAccionReservacion( $plantilla, $datos );
     }
 
     return $sobre; 

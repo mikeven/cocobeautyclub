@@ -9,6 +9,7 @@
 		<div class="panel-body">
 			<div class="form-group">
 				<div class="col-sm-12">
+					<div><?php echo $reservacion["actividad"] ?> </div>
 					<?php 
 						foreach ( $horarios as $h ) { 
 							$ch = "";
@@ -29,6 +30,7 @@
 									</label>
 								</div>
 					<?php } ?>
+					<?php include( "pautas-disponibles.php" ); ?> 
 				</div>
 			</div>
 		</div>

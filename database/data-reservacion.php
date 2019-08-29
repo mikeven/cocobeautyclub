@@ -52,6 +52,20 @@
 		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
 	}
 	/* --------------------------------------------------------- */
+	function obtenerReservacionesDiasAntes( $dbh, $d ){
+		// Devuelve la lista de reservaciones realizadas que no estén canceladas
+		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );
+
+		$q = "select r.id, r.nombre, r.apellido, r.email, r.telefono, r.estado, 
+		r.asistio, a.nombre as actividad, a.descripcion, a.imagen, a.id as ida, 
+		date_format(h.fecha,'%W %d de %M %h:%i %p') as fecha from actividad a, horario h, 
+		reservacion r where r.HORARIO_id = h.id and h.ACTIVIDAD_id = a.id 
+		and r.estado <> 'cancelada' and 
+		date_format(h.fecha,'%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL $d DAY)";
+
+		return obtenerListaRegistros( mysqli_query( $dbh, $q ) );
+	}
+	/* --------------------------------------------------------- */
 	function alter( $dbh ){
 		//echo "alter table vendors add column asistio varchar(5) not null";
 		//$res = mysqli_query( $dbh, 'ALTER TABLE reservacion DROP COLUMN asisrio' );
@@ -63,6 +77,22 @@
 
 	function alter2( $dbh ){
 		$res = mysqli_query( $dbh, 'update reservacion set asistio = "Sí" where id = 25' );
+	}
+	/* --------------------------------------------------------- */
+	function enviarRecordatorios( $dbh ){
+		// Selecciona las reservaciones para actividades con un número determinado de días previos  
+		// para enviar un recordatorio  
+		include( "fn/fn-mailing.php" );
+		$reservaciones = obtenerReservacionesDiasAntes( $dbh, 1 );
+		echo "Envíos de recordatorio de asistencia: "."<br><br>";
+		$num = 1;
+		foreach ( $reservaciones as $r ) {
+			echo $num.") ".$r["nombre"]." ".$r["apellido"]."; ".$r["email"].
+			" // ".$r["actividad"].":: ".$r["fecha"]." "."<br>";
+			
+			enviarMensajeEmail( "recordatorio_actividad", $r, $r["email"] );
+			$num++;
+		}
 	}
 	/* --------------------------------------------------------- */
 	function obtenerParticipantesPorHorarioActividad( $dbh, $idh ){
@@ -258,6 +288,7 @@
 	if( isset( $_POST["mod_hor_rsv"] ) ){ 
 		// Invocación desde: js/fn-reservacion.js
 		include( "bd.php" );
+		include( "../fn/fn-mailing.php" );
 
 		parse_str( $_POST["mod_hor_rsv"], $reservacion );
 		
@@ -265,6 +296,8 @@
 		if( $rsp != 0 ){
 			$res["exito"] = 1;
 			$res["mje"] = "Reservación modificada con éxito";
+			$data_r = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
+			enviarMensajeEmail( "actualizacion_reservacion", $data_r, $data_r["email"] );
 		}else{
 			$res["exito"] = -1;
 			$res["mje"] = "Error al modificar reservación";
@@ -354,7 +387,6 @@
 			$res["exito"] = 1;
 			$res["mje"] = "Reservación modificada con éxito";
 			$data_r = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
-			//print_r( $data_r );
 			enviarMensajeEmail( "actualizacion_reservacion", $data_r, $data_r["email"] );
 		}else{
 			$res["exito"] = -1;

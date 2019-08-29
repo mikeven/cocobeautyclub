@@ -21,6 +21,16 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
+	function obtenerActividadesDisponiblesHoy( $dbh, $param ){
+		//Devuelve todos los registros de actividades y sus horarios
+		$q = "select distinct(a.id), a.nombre as actividad from actividad a, horario h 
+		where h.ACTIVIDAD_id = a.id and fecha > date_add( NOW(), interval -4 hour ) 
+		and a.id <> $param order by h.fecha ASC, nombre asc";
+		
+		$data = mysqli_query( $dbh, $q );
+		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
 	function obtenerPautasEnFecha( $dbh, $fecha ){
 		// Devuelve las actividades pautadas en una fecha dada
 		mysqli_query( $dbh, "SET lc_time_names = 'es_ES';" );

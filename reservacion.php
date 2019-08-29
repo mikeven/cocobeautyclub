@@ -25,6 +25,7 @@
  		if( isset( $_GET["accion"] ) ){
  			$accion = $_GET["accion"];
  			if( $accion == "cambio-fecha" ){
+ 				$pautas = obtenerActividadesDisponiblesHoy( $dbh, $reservacion["ida"] );
  				$horarios = obtenerHorariosActividad( $dbh, $reservacion["ida"] );
  			}
  			if( $accion == "asistencia" ){
