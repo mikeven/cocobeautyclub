@@ -62,7 +62,7 @@
 					</div>
 					<div class="panel-footer panel-footer-btn-group panel-rsv-acciones">
 						<a id="ax_mod_fecha" href="#" class="ax_rsv">
-							<i class="fa fa-calendar mr-xs"></i> Cambiar fecha
+							<i class="fa fa-calendar mr-xs"></i> Cambiar reservación
 						</a>
 
 						<a id="ax_reg_asistencia" href="#" class="ax_rsv">

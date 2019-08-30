@@ -217,12 +217,10 @@ function ocultarAccionesDisponibles( reservacion ){
     }
 
     if( reservacion.estado == "pendiente" ) {
-        if( reservacion.fecha_pasada == 1 ){
-            $("#ax_cancelar").hide();
-            $("#ax_mod_fecha").hide();
-        }
-        else
-            $("#ax_reg_asistencia").hide();
+        /*$("#ax_mod_fecha").hide();
+        $("#ax_reg_asistencia").hide();
+        if( reservacion.fecha_pasada == 1 )
+            $("#ax_cancelar").hide(); */ 
     }
 
 }
