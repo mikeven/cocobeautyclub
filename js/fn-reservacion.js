@@ -273,7 +273,7 @@ function mostrarReservacion( id, dst ){
         url:"database/data-reservacion.php",
         data:{ mostrar_rsv: id },
         success: function( response ){
-            console.log(response);
+            //console.log(response);
             res = jQuery.parseJSON( response );
             if( res.exito == 1 ){ 
                 if( dst == "ventana_cal" )
@@ -307,6 +307,7 @@ function ingresarReservacion(){
         url:"database/data-reservacion.php",
         data:{ reservar: frm },
         success: function( response ){
+            console.log(response);
             $("#btn_nva_rsv").attr("disabled", true);
             res = jQuery.parseJSON( response );
             

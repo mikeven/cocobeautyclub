@@ -36,8 +36,8 @@
     $plantilla = str_replace( "{url_cancelacion}", $url_cancelacion, $plantilla );
     $plantilla = str_replace( "{nombre}", $datos["nombre"], $plantilla );
     $plantilla = str_replace( "{apellido}", $datos["apellido"], $plantilla );
-    $plantilla = str_replace( "{actividad}", $datos["nactividad"], $plantilla );
-    $plantilla = str_replace( "{fecha_y_hora}", $datos["fecha_act"], $plantilla );
+    $plantilla = str_replace( "{actividad}", $datos["actividad"], $plantilla );
+    $plantilla = str_replace( "{fecha_y_hora}", $datos["fecha"], $plantilla );
     
     return $plantilla;
   }

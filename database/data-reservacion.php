@@ -312,8 +312,8 @@
 		include( "../fn/fn-mailing.php" );
 
 		parse_str( $_POST["cancelar_rsv"], $reservacion );
-		$reservacion = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
 		$rsp = cancelarReservacionAdmin( $dbh, $reservacion );
+		$reservacion = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
 		if( $rsp != 0 ){
 			$res["exito"] = 1;
 			$res["mje"] = "Reservación cancelada con éxito";
@@ -330,7 +330,7 @@
 		// Invocación desde: js/fn-reservacion.js
 		include( "bd.php" );
 		include( "data-actividad.php" );
-		//include( "../fn/fn-mailing.php" );
+		include( "../fn/fn-mailing.php" );
 		
 		parse_str( $_POST["reservar"], $reservacion );
 		$reservacion = escaparCampos( $dbh, $reservacion );
@@ -342,9 +342,9 @@
 			
 			if( $rsp != 0 ){
 				$res["exito"] = 1;
-				$reservacion["id"] = $rsp;
 				$res["mje"] = "Reservación registrada con éxito";
-				//enviarMensajeEmail( "nueva_reservacion", $reservacion, $reservacion["email"] );
+				$reservacion = obtenerReservacionPorId( $dbh, $rsp );
+				enviarMensajeEmail( "nueva_reservacion", $reservacion, $reservacion["email"] );
 			}else{
 				$res["exito"] = -1;
 				$res["mje"] = "Error al registrar reservación";
