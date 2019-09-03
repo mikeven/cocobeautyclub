@@ -145,17 +145,6 @@
 
     /* --------------------------------------------------------- */
 
-    $(".rb_asist").on( "click", function(){
-        var idrb = $(this).attr("id");
-        if( idrb == "si_asistio") $("#campos_compra").fadeIn();
-        else {
-            $("#campos_compra").fadeOut();
-            $("#compra").html("");
-        }
-    });
-
-    /* --------------------------------------------------------- */
-
 }).apply( this, [ jQuery ]);
 /* --------------------------------------------------------- */
 function iconoEstadoReservacion( e ){
@@ -217,10 +206,12 @@ function ocultarAccionesDisponibles( reservacion ){
     }
 
     if( reservacion.estado == "pendiente" ) {
-        /*$("#ax_mod_fecha").hide();
-        $("#ax_reg_asistencia").hide();
-        if( reservacion.fecha_pasada == 1 )
-            $("#ax_cancelar").hide(); */ 
+        if( reservacion.fecha_pasada == 1 ){
+            $("#ax_cancelar").hide();
+            $("#ax_mod_fecha").hide();
+        }
+        else
+            $("#ax_reg_asistencia").hide();
     }
 
 }
@@ -247,8 +238,6 @@ function fechasEstado( reservacion ){
 function mostrarReservacionCalendario( reservacion ){
 	// Muestra los datos de una reservación en la ficha desde calendario
     $(".ax_rsv").show(); $(".datafe").hide();
-
-    $("#idrsv").val( reservacion.id );
     $(".rsv_nactividad").html( reservacion.actividad );
     $("#nombre_rsv").html( reservacion.nombre );
     $("#apellido_rsv").html( reservacion.apellido );
@@ -307,8 +296,7 @@ function ingresarReservacion(){
         url:"database/data-reservacion.php",
         data:{ reservar: frm },
         success: function( response ){
-            console.log(response);
-            $("#btn_nva_rsv").attr("disabled", true);
+            
             res = jQuery.parseJSON( response );
             
             if( res.exito == 1 ){ 
@@ -330,7 +318,7 @@ function modificarHorarioReservacion(){
         url:"database/data-reservacion.php",
         data:{ mod_hor_rsv: frm },
         success: function( response ){
-            console.log(response);
+            //console.log(response);
             res = jQuery.parseJSON( response );
             if( res.exito == 1 ){ 
                 notificar( "Reservación", res.mje, "success" );
@@ -351,7 +339,7 @@ function cancelarReservacion(){
         url:"database/data-reservacion.php",
         data:{ cancelar_rsv: frm },
         success: function( response ){
-            console.log(response);
+            //console.log(response);
             res = jQuery.parseJSON( response );
             if( res.exito == 1 ){ 
                 notificar( "Reservación", res.mje, "success" );
