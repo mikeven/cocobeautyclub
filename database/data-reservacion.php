@@ -312,6 +312,7 @@
 		include( "../fn/fn-mailing.php" );
 
 		parse_str( $_POST["cancelar_rsv"], $reservacion );
+		
 		$rsp = cancelarReservacionAdmin( $dbh, $reservacion );
 		$reservacion = obtenerReservacionPorId( $dbh, $reservacion["idreservacion"] );
 		if( $rsp != 0 ){

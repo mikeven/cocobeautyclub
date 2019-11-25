@@ -74,7 +74,7 @@
 			.panel-rsv-acciones a{ color: #999; font-weight: bolder; }
 			.data-info-reg{ color: #666; font-size: 14px; }
 			.info-reservacion-cal{ padding: 20px 0 }
-			.datafe, .hor_nvarsv{ display: none; }
+			.datafe, .hor_nvarsv{ display: none; max-height: 280px; overflow-y: scroll; }
 			#hact_nvarsv, .cdispcal{ color: #ed145b }
 			.cdispcal{ font-size: 14px; font-weight: bolder; }
 			.lab_cupos_dsp { color: #ed145b; font-size: 13px; }

@@ -238,6 +238,7 @@ function fechasEstado( reservacion ){
 function mostrarReservacionCalendario( reservacion ){
 	// Muestra los datos de una reservación en la ficha desde calendario
     $(".ax_rsv").show(); $(".datafe").hide();
+    $("#idrsv").val( reservacion.id );
     $(".rsv_nactividad").html( reservacion.actividad );
     $("#nombre_rsv").html( reservacion.nombre );
     $("#apellido_rsv").html( reservacion.apellido );
@@ -339,7 +340,7 @@ function cancelarReservacion(){
         url:"database/data-reservacion.php",
         data:{ cancelar_rsv: frm },
         success: function( response ){
-            //console.log(response);
+            console.log(response);
             res = jQuery.parseJSON( response );
             if( res.exito == 1 ){ 
                 notificar( "Reservación", res.mje, "success" );

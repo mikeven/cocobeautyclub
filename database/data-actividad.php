@@ -128,9 +128,12 @@
 	function colorActividad( $id ){
 		// Devuelve un color asociado a una actividad según su id
 		$color = array(
-	        1 => '#5cd4e7',
-	        2 => '#fda2a2',
-	        3 => '#d6a2fd'
+	        1 => '#fde9a2',
+	        2 => '#d6a2fd',
+	        3 => '#fda2a2',
+	        4 => '#5cd4e7',
+	        5 => '#a3fda2',
+	        6 => '#fdcca2'
 	    );
 
 	    return $color[ $id ];
