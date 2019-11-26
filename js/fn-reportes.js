@@ -33,6 +33,11 @@
     $(".dataTables_filter input").attr("placeholder", "Buscar");
 
     /* --------------------------------------------------------- */
+    $("#tabla-actividades").on( "click", ".selector_rsv_cal", function(){
+        // Evento invocador para mostrar datos de reservaciÃ³n en calendario
+        var idr = $(this).attr( "data-idr" );
+        mostrarReservacion( idr, "ventana_cal" );
+    });
 
 }).apply( this, [ jQuery ]);
 /* --------------------------------------------------------- */

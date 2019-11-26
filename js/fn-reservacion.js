@@ -144,6 +144,14 @@
     });
 
     /* --------------------------------------------------------- */
+    $(".rb_asist").on( "click", function(){
+        var idrb = $(this).attr("id");
+        if( idrb == "si_asistio") $("#campos_compra").fadeIn();
+        else {
+            $("#campos_compra").fadeOut();
+            $("#compra").html("");
+        }
+    });
 
 }).apply( this, [ jQuery ]);
 /* --------------------------------------------------------- */
@@ -263,7 +271,7 @@ function mostrarReservacion( id, dst ){
         url:"database/data-reservacion.php",
         data:{ mostrar_rsv: id },
         success: function( response ){
-            //console.log(response);
+            console.log(response);
             res = jQuery.parseJSON( response );
             if( res.exito == 1 ){ 
                 if( dst == "ventana_cal" )

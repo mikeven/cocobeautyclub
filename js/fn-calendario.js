@@ -29,13 +29,13 @@
 
 			// Opciones de vista
 			defaultView: 'timeGridWeek',	// Vista por defecto: semana
-			hiddenDays: [ 0 ],			// Oculta los sáb y dom
+			hiddenDays: [ 0 ],				// Oculta los días domingo
 			allDaySlot:false,				// Oculta bloque "Todo el día"
 			businessHours: false,			// Oculta los días hábiles
 
 			// Horas
-			minTime: "12:00",
-			maxTime: "21:00",
+			minTime: "11:00",				// Hora mínima visible
+			maxTime: "21:00",				// Hora máxima visible
 			slotDuration: '00:30:00', 		// Intérvalo de horas
 			slotLabelInterval: '00:30:00',	// Intérvalo para mostrar texto en las horas
 			omitZeroMinute: false,

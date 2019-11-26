@@ -64,10 +64,14 @@
 	function obtenerHorariosActividad( $dbh, $ida ){
 		// Devuelve los horarios en que está pautada una actividad
 
-		$q = "select id, date_format(fecha,'%Y-%m-%d %H:%i') as fecha_cal,
+		/*$q = "select id, date_format(fecha,'%Y-%m-%d %H:%i') as fecha_cal,
 		date_format(fecha,'%d/%m %h:%i %p') as fecha_horam,  
 		ACTIVIDAD_id as ida from horario where ACTIVIDAD_id = $ida 
-		and fecha > date_add( NOW(), interval -4 hour ) order by fecha_cal asc" ;
+		and fecha > date_add( NOW(), interval -4 hour ) order by fecha_cal asc" ;*/
+
+		$q = "select id, date_format(fecha,'%Y-%m-%d %H:%i') as fecha_cal,
+		date_format(fecha,'%d/%m %h:%i %p') as fecha_horam,  
+		ACTIVIDAD_id as ida from horario where ACTIVIDAD_id = $ida order by fecha_cal asc" ;
 		
 		$data = mysqli_query( $dbh, $q );
 		return obtenerListaRegistros( $data );
