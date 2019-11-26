@@ -29,7 +29,7 @@
 
 			// Opciones de vista
 			defaultView: 'timeGridWeek',	// Vista por defecto: semana
-			hiddenDays: [ 0, 6 ],			// Oculta los sáb y dom
+			hiddenDays: [ 0 ],			// Oculta los sáb y dom
 			allDaySlot:false,				// Oculta bloque "Todo el día"
 			businessHours: false,			// Oculta los días hábiles
 
