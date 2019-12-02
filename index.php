@@ -91,7 +91,7 @@
 								</div>
 								<div class="col-sm-4 text-right">
 									<button type="submit" class="btn btn-primary hidden-xs">Ingresar</button>
-									<button type="button" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Ingresar</button>
+									<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Ingresar</button>
 								</div>
 							</div>
 							<hr>
@@ -100,7 +100,7 @@
 					</div>
 				</div>
 
-				<p class="text-center text-muted mt-md mb-md">Coco Beauty Club Admin 2019 <a href="#!">Cupfsa</a>.</p>
+				<p class="text-center text-muted mt-md mb-md">Beauty Panel Admin 2019</p>
 			</div>
 		</section>
 		<!-- end: page -->
