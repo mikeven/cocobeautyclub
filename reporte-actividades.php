@@ -160,7 +160,6 @@
 													class="modal-sizes modal-with-zoom-anim selector_rsv_cal" 
 													data-idr="<?php echo $l['id'] ?>">
 													<?php echo $l["nombre"]." ".$l["apellido"]." ( $l[telefono])";?>
-														
 												</a>
 											</div>
 											<?php } ?>

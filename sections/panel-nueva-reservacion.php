@@ -31,7 +31,7 @@
 							<i class="fa fa-plus"></i><i class="fa fa-book"></i>
 						</button>
 					</a> &nbsp;
-					<span class="cdispcal"><?php echo $cupos_dsp ?></span>
+					<span class="cdispcal"><?php echo $cupos_dsp."/".$h["cupo"]; ?></span>
 				</div>
 				<?php } ?>
 			</div>

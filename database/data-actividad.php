@@ -70,7 +70,7 @@
 		and fecha > date_add( NOW(), interval -4 hour ) order by fecha_cal asc" ;*/
 
 		$q = "select id, date_format(fecha,'%Y-%m-%d %H:%i') as fecha_cal,
-		date_format(fecha,'%d/%m %h:%i %p') as fecha_horam,  
+		date_format(fecha,'%d/%m %h:%i %p') as fecha_horam, cupo,  
 		ACTIVIDAD_id as ida from horario where ACTIVIDAD_id = $ida order by fecha_cal asc" ;
 		
 		$data = mysqli_query( $dbh, $q );

@@ -130,7 +130,7 @@
 								<tbody>
 									<?php foreach ( $participantes as $p ) { ?>
 									<tr class="gradeX">
-										<td><?php echo $p["nombre"]." ".$p["apellido"]." ".$p["id"] ?></td>
+										<td><?php echo $p["nombre"]." ".$p["apellido"] ?></td>
 										<td><?php echo $p["email"] ?> </td>
 										<td><?php echo $p["telefono"] ?> </td>
 										<td><?php echo $p["asistio"] ?> </td>
