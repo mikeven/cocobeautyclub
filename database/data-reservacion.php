@@ -90,7 +90,8 @@
 			echo $num.") ".$r["nombre"]." ".$r["apellido"]."; ".$r["email"].
 			" // ".$r["actividad"].":: ".$r["fecha"]." "."<br>";
 			
-			enviarMensajeEmail( "recordatorio_actividad", $r, $r["email"] );
+			//enviarMensajeEmail( "recordatorio_actividad", $r, $r["email"] );
+			//enviarMensajeEmail( "recordatorio_actividad", $r, "mikeven@gmail.com" ); // Email de prueba
 			$num++;
 		}
 	}
