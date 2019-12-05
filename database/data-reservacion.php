@@ -90,8 +90,8 @@
 			echo $num.") ".$r["nombre"]." ".$r["apellido"]."; ".$r["email"].
 			" // ".$r["actividad"].":: ".$r["fecha"]." "."<br>";
 			
-			//enviarMensajeEmail( "recordatorio_actividad", $r, $r["email"] );
-			//enviarMensajeEmail( "recordatorio_actividad", $r, "mikeven@gmail.com" ); // Email de prueba
+			enviarMensajeEmail( "recordatorio_actividad", $r, $r["email"] );
+			enviarMensajeEmail( "recordatorio_actividad", $r, "mikeven_17@hotmail.com" ); // Email de prueba
 			$num++;
 		}
 	}
@@ -238,7 +238,7 @@
 		if( $rsp != 0 ){
 			$res["exito"] = 1;
 			$res["mje"] = "Su reservación se ha cancelado con éxito";
-			//enviarMensajeEmail( "cancelacion_reservacion", $reservacion, $reservacion["email"] );
+			enviarMensajeEmail( "cancelacion_reservacion", $reservacion, $reservacion["email"] );
 		}else{
 			$res["exito"] = -1;
 			$res["mje"] = "Error al cancelar reservación";
